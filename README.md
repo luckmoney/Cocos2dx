@@ -78,28 +78,7 @@ $ git commit -m "添加项目"
  create mode 100644 GitTestUITests/Info.plist
 或者不添加注释 git commit ,但是这样会进入vim(vi)编辑器
 
-# Please enter the commit message for your changes. Lines starting
-# with '#' will be ignored, and an empty message aborts the commit.
-# On branch master
-# Changes to be committed:
-#       modified:   LQQCircleShowImage.xcodeproj/project.pbxproj
-#       modified:   LQQCircleShowImage/TableViewCell.m
-#
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
-~                                                                               
+​                                
 "~/Desktop/LQQCircleShowImage/.git/COMMIT_EDITMSG" 8L, 292C
 在这里可以输入更改信息,也可以不输入,然后 按住 shift + : ,输入wq 即可保存信息并退出vim编辑器;
 
