@@ -150,7 +150,7 @@ int main()
 		processInput(window);
 
 
-		//render.Render(&camera);
+		render.Render(&camera);
 		
 
 		glfwSwapBuffers(window);
