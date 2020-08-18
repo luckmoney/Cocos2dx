@@ -151,13 +151,7 @@ int main()
 
 
 		//render.Render(&camera);
-		//adLight.Render(&camera, blinn);
-
-		//aster.Render(&camera);
-		//Model.Render(&camera);
-		//g_shader.Render(&camera);
-		//sky_box.Render(&camera);
-
+		
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
