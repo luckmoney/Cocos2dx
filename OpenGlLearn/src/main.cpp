@@ -150,7 +150,7 @@ int main()
 		processInput(window);
 
 
-		render.Render(&camera);
+		//render.Render(&camera);
 		//adLight.Render(&camera, blinn);
 
 		//aster.Render(&camera);
