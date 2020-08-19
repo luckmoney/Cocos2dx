@@ -6,7 +6,7 @@ namespace Cocos {
 	}
 
 	void InputSystem::Tick() {
-		std::cout << "InputSystem Tick" << std::endl;
+
 	}
 
 	void InputSystem::Finalize() {

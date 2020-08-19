@@ -15,6 +15,9 @@ namespace Cocos {
 		render->Initialize();
 		module_vec.push_back(render);
 
+		m_window = new Windows();
+		m_window->Initialize();
+
 
 		m_bQuit = false;
 		return 0;
@@ -27,6 +30,7 @@ namespace Cocos {
 			SAFEDELETE *iter;
 			++iter;
 		}
+		delete m_window;
 	}
 
 	void Application::Tick() {
@@ -42,4 +46,14 @@ namespace Cocos {
 		return m_bQuit;
 	}
 
+	void Application::Run() {
+		while (!m_window->IsClose())
+		{
+			float delta = m_window->GetDelta();
+			this->Tick();
+			m_window->SwapBuffers();
+		}
+
+		this->Finalize();
+	}
 }

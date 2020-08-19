@@ -1,5 +1,9 @@
 #pragma once
 
+#include <glad/glad.h> 
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+
 #include <ostream>
 #include <iostream>
 #include <vector>
@@ -16,3 +20,4 @@
 #include "Framework/RenderSystem.h"
 #include "Framework/SceneObject.h"
 #include "Framework/SceneSystem.h"
+#include "Framework/Windows.h"

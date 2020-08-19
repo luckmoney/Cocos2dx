@@ -12,7 +12,7 @@ namespace Cocos {
 
 
 	void SceneObject::update() {
-		std::cout << this << std::endl;
+		//std::cout << this << std::endl;
 	}
 
 	void SceneObject::setPosition(Vec3 pos)

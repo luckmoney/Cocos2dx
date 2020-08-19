@@ -91,12 +91,7 @@ int main()
 	Cocos::Application application;
 	application.Initialize();
 
-	while (!application.IsQuit())
-	{
-		application.Tick();
-	}
-
-	application.Finalize();
+	application.Run();
 
 	return 0;
 }
