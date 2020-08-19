@@ -1,3 +1,5 @@
+#include "Framework/Cocos2dx.h"
+
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -12,7 +14,6 @@
 #include "dev_common.h"
 
 
-#include "normalMapping/normalMapping.h"
 //#include "shadowMapping/shadowMappingPointShadow.h"
 //#include "shadowMapping/shadowMappingBase.h"
 //#include "SkyBox.h"
@@ -87,79 +88,15 @@ static void glfw_error_callback(int error, const char* description)
 
 int main()
 {
+	Cocos::Application application;
+	application.Initialize();
 
-	// glfw: initialize and configure
-	// ------------------------------
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	//glfwWindowHint(GLFW_SAMPLES, 4);
-
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-	if (window == NULL)
+	while (!application.IsQuit())
 	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
+		application.Tick();
 	}
 
-
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-
-	NormalMapping render;
-	render.Init();
-
-	//AdvanceLight adLight;
-	//adLight.Init();
-
-	//SkyBox sky_box;
-	//sky_box.Init();
-
-	//GShaderHouse g_shader;
-	//g_shader.Init();
-
-
-	//ModelLoading Model;
-	//Model.Init();
-
-	//Asteroids aster;
-	//aster.Init();
-
-	// Main loop
-	while (!glfwWindowShouldClose(window))
-	{
-		float currentFrame = glfwGetTime();
-		deltaTime = currentFrame - lastFrame;
-		lastFrame = currentFrame;
-		processInput(window);
-
-
-		render.Render(&camera);
-		
-
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-
-
-	glfwDestroyWindow(window);
-	glfwTerminate();
+	application.Finalize();
 
 	return 0;
 }
