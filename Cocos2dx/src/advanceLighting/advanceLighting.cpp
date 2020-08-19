@@ -14,9 +14,9 @@ void AdvanceLight::Init()
 
 	lightPos = glm::vec3(0.0f,0.0f,0.0f);
 
-	m_texture = new DevTexture("../OpenGlLearn/res/wood.png");
-	m_shader = new Shader("../OpenGlLearn/src/advanceLighting/advanced_lighting.vs",
-		"../OpenGlLearn/src/advanceLighting/advanced_lighting.fs");
+	m_texture = new DevTexture("../Cocos2dx/res/wood.png");
+	m_shader = new Shader("../Cocos2dx/src/advanceLighting/advanced_lighting.vs",
+		"../Cocos2dx/src/advanceLighting/advanced_lighting.fs");
 	m_shader->use();
 	m_shader->setInt("floorTexture", 0);
 

@@ -9,9 +9,9 @@ GShaderHouse::~GShaderHouse()
 void GShaderHouse::Init()
 {
 	m_shader = new Shader(
-		"../OpenGlLearn/shader/geometry_shader.vs", 
-		"../OpenGlLearn/shader/geometry_shader.fs",
-		"../OpenGlLearn/shader/geometry_shader.gs"
+		"../Cocos2dx/shader/geometry_shader.vs", 
+		"../Cocos2dx/shader/geometry_shader.fs",
+		"../Cocos2dx/shader/geometry_shader.gs"
 		);
 
 	float points[] = {

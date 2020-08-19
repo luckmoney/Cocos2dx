@@ -3,12 +3,12 @@
 void Asteroids::Init()
 {
 	
-	aster_shader = new Shader("../OpenGlLearn/src/Instancing/asteroids_shader.vs", "../OpenGlLearn/src/Instancing/asteroids_shader.fs");
-	planet_shader = new Shader("../OpenGlLearn/src/Instancing/planet.vs", "../OpenGlLearn/src/Instancing/planet.fs");
+	aster_shader = new Shader("../Cocos2dx/src/Instancing/asteroids_shader.vs", "../Cocos2dx/src/Instancing/asteroids_shader.fs");
+	planet_shader = new Shader("../Cocos2dx/src/Instancing/planet.vs", "../Cocos2dx/src/Instancing/planet.fs");
 
 	
-	rock = new Model("../OpenGlLearn/res/objects/rock/rock.obj");
-	planet = new Model("../OpenGlLearn/res/objects/planet/planet.obj");
+	rock = new Model("../Cocos2dx/res/objects/rock/rock.obj");
+	planet = new Model("../Cocos2dx/res/objects/planet/planet.obj");
 
 	unsigned int amount = 10000;
 	modelMatrices = new glm::mat4[amount];

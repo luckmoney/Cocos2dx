@@ -15,12 +15,12 @@ void ShadowMappingPoint::Init()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	shader = new Shader("../OpenGlLearn/src/shadowMapping/point_shadow.vs",
-		"../OpenGlLearn/src/shadowMapping/point_shadow.fs");
+	shader = new Shader("../Cocos2dx/src/shadowMapping/point_shadow.vs",
+		"../Cocos2dx/src/shadowMapping/point_shadow.fs");
 
-	simpeDepthShader = new Shader("../OpenGlLearn/src/shadowMapping/point_shadow_depth.vs",
-		"../OpenGlLearn/src/shadowMapping/point_shadow_depth.fs",
-		"../OpenGlLearn/src/shadowMapping/point_shadow_depth.gs");
+	simpeDepthShader = new Shader("../Cocos2dx/src/shadowMapping/point_shadow_depth.vs",
+		"../Cocos2dx/src/shadowMapping/point_shadow_depth.fs",
+		"../Cocos2dx/src/shadowMapping/point_shadow_depth.gs");
 
 
 	shader->use();
@@ -30,7 +30,7 @@ void ShadowMappingPoint::Init()
 	lightPos = glm::vec3(0.0f,0.0f,0.0f);
 
 
-	m_woodTexture = loadTexture("../OpenGlLearn/res/wood.png");
+	m_woodTexture = loadTexture("../Cocos2dx/res/wood.png");
 
 
 	glGenFramebuffers(1, &m_depthMapFBO);

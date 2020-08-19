@@ -1,6 +1,6 @@
-workspace "OpenGl"
+workspace "Cocos2dx"
     architecture "x86"
-    startproject "OpenGlLearn"
+    startproject "Cocos2dx"
     location "build"
     systemversion "10.0.17763.0"
 
@@ -18,7 +18,7 @@ workspace "OpenGl"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-project "OpenGlLearn"
+project "Cocos2dx"
     location "build"
     kind "ConsoleApp"
     language "C++"
@@ -52,7 +52,6 @@ project "OpenGlLearn"
         "%{prj.name}/Indepence/Assimp/include",
         "%{prj.name}/Indepence/GLFW/include",
         "%{prj.name}/Indepence/GLM",
-        "%{prj.name}/Indepence/ImageMagick/ImageMagick-6",
         "%{prj.name}/src",
     }
 
@@ -60,7 +59,6 @@ project "OpenGlLearn"
     libdirs {
         "%{prj.name}/Indepence/GLFW/lib",
         "%{prj.name}/Indepence/Assimp/lib",
-        "%{prj.name}/Indepence/ImageMagick/lib"
     }
 
     filter "system:windows"
@@ -72,7 +70,6 @@ project "OpenGlLearn"
         symbols "on"
         links {
             "glfw3","opengl32","assimp",
-            "CORE_DB_Magick++_.lib"
         }
 
     filter "configurations:Release"
@@ -80,7 +77,6 @@ project "OpenGlLearn"
         optimize "on"
         links {
             "glfw3","opengl32","assimp",
-            "CORE_RL_Magick++_.lib"
         }
 
     configuration "windows"

@@ -14,17 +14,17 @@ void ShadowMappingBase::Init()
 
 	glEnable(GL_DEPTH_TEST);
 
-	m_shader = new Shader("../OpenGlLearn/src/shadowMapping/shadow_mapping.vs",
-		"../OpenGlLearn/src/shadowMapping/shadow_mapping.fs");
+	m_shader = new Shader("../Cocos2dx/src/shadowMapping/shadow_mapping.vs",
+		"../Cocos2dx/src/shadowMapping/shadow_mapping.fs");
 
-	m_depthShader = new Shader("../OpenGlLearn/src/shadowMapping/shadow_mapping_depth.vs",
-		"../OpenGlLearn/src/shadowMapping/shadow_mapping_depth.fs");
+	m_depthShader = new Shader("../Cocos2dx/src/shadowMapping/shadow_mapping_depth.vs",
+		"../Cocos2dx/src/shadowMapping/shadow_mapping_depth.fs");
 
-	m_depthQuad = new Shader("../OpenGlLearn/src/shadowMapping/debug_quad.vs",
-		"../OpenGlLearn/src/shadowMapping/debug_quad.fs");
+	m_depthQuad = new Shader("../Cocos2dx/src/shadowMapping/debug_quad.vs",
+		"../Cocos2dx/src/shadowMapping/debug_quad.fs");
 
 
-	m_woodTexture = loadTexture("../OpenGlLearn/res/wood.png");
+	m_woodTexture = loadTexture("../Cocos2dx/res/wood.png");
 
 
 

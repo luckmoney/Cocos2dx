@@ -13,7 +13,7 @@
 #define SCR_WIDTH 800
 #define SCR_HEIGHT 600
 
-#define SRC_PATH "../OpenGlLearn/"
+#define SRC_PATH "../Cocos2dx/"
 
 // ---------------------------------------------------
 unsigned int loadTexture(char const * path);

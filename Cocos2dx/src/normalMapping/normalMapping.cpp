@@ -11,12 +11,12 @@ void NormalMapping::Init()
 {
 	quadVAO = 0;
 	shader = new Shader(
-		"../OpenGlLearn/src/normalMapping/normal_mapping.vs",
-		"../OpenGlLearn/src/normalMapping/normal_mapping.fs"
+		"../Cocos2dx/src/normalMapping/normal_mapping.vs",
+		"../Cocos2dx/src/normalMapping/normal_mapping.fs"
 	);
 
-	diffuseMap = new DevTexture("../OpenGlLearn/res/brickwall.jpg");
-	normalMap = new DevTexture("../OpenGlLearn/res/brickwall_normal.jpg");
+	diffuseMap = new DevTexture("../Cocos2dx/res/brickwall.jpg");
+	normalMap = new DevTexture("../Cocos2dx/res/brickwall_normal.jpg");
 
 	shader->use();
 	shader->setInt("diffuseMap",0);

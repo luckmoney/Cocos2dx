@@ -3,8 +3,8 @@
 
 void ModelLoading::Init()
 {
-	m_shader = new Shader("../OpenGlLearn/src/modelLoading/model_loading.vs", "../OpenGlLearn/src/modelLoading/model_loading.fs");
-	m_model = new Model("../OpenGlLearn/res/objects/nanosuit/nanosuit.obj");
+	m_shader = new Shader("../Cocos2dx/src/modelLoading/model_loading.vs", "../Cocos2dx/src/modelLoading/model_loading.fs");
+	m_model = new Model("../Cocos2dx/res/objects/nanosuit/nanosuit.obj");
 }
 
 void ModelLoading::Render(Camera* camera)
