@@ -13,10 +13,13 @@ namespace Cocos {
 		void Run();
 		bool IsQuit();
 
+		virtual void InitScene();
+
 	private:
 		bool m_bQuit;
-		std::vector<IRuntimeModule*> module_vec;
-
 		Windows *m_window;
+		InputSystem *m_InputSystem;
+		SceneSystem *m_SceneSystem;
+		RenderSystem *m_RenderSystem;
 	};
 }

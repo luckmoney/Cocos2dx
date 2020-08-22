@@ -5,41 +5,41 @@ namespace Cocos {
 
 		InputSystem *input = new InputSystem();
 		input->Initialize();
-		module_vec.push_back(input);
+		m_InputSystem = input;
 
 		SceneSystem *scene = new SceneSystem();
 		scene->Initialize();
-		module_vec.push_back(scene);
+		m_SceneSystem = scene;
 
 		RenderSystem *render = new RenderSystem();
 		render->Initialize();
-		module_vec.push_back(render);
+		m_RenderSystem = render;
 
 		m_window = new Windows();
 		m_window->Initialize();
-
-
 		m_bQuit = false;
+
+		InitScene();
 		return 0;
 	}
 
 	void Application::Finalize() {
-		auto iter = module_vec.begin();
-		while (iter != module_vec.end()) {
-			(*iter)->Finalize();
-			SAFEDELETE *iter;
-			++iter;
-		}
-		delete m_window;
+		m_RenderSystem->Finalize();
+		SAFEDELETE(m_RenderSystem);
+		m_SceneSystem->Finalize();
+		SAFEDELETE(m_SceneSystem);
+		m_InputSystem->Finalize();
+		SAFEDELETE(m_InputSystem);
+		m_window->Finalize();
+		SAFEDELETE(m_window);
+
 	}
 
 	void Application::Tick() {
-		auto iter = module_vec.begin();
-		while (iter != module_vec.end())
-		{
-			(*iter)->Tick();
-			++iter;
-		}
+		m_InputSystem->Tick();
+		m_SceneSystem->Tick();
+		m_RenderSystem->Tick();
+		m_window->Tick();
 	}
 
 	bool Application::IsQuit() {
@@ -53,7 +53,13 @@ namespace Cocos {
 			this->Tick();
 			m_window->SwapBuffers();
 		}
-
 		this->Finalize();
+	}
+
+
+	void Application::InitScene() {
+		auto obj = m_SceneSystem->GetSceneObject();
+		obj->AddRenderAble(Cube::create());
+
 	}
 }

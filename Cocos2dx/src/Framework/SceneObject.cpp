@@ -13,6 +13,19 @@ namespace Cocos {
 
 	void SceneObject::update() {
 		//std::cout << this << std::endl;
+		auto iter = object_vec.begin();
+		while (iter != object_vec.end())
+		{
+			(*iter)->update();
+			++iter;
+		}
+
+		auto render = render_vec.begin();
+		while (render != render_vec.end())
+		{
+			(*render)->Render();
+			++render;
+		}
 	}
 
 	void SceneObject::setPosition(Vec3 pos)
@@ -28,6 +41,15 @@ namespace Cocos {
 		Vec3 pos = object->getPosition();
 		out << "object " << pos.x << "\t"<< pos.y << "\t"<< pos.z << std::endl;
 		return out;
+	}
+
+
+	void SceneObject::AddRenderAble(RenderAble* renderAble) {
+		auto iter = std::find(render_vec.begin(), render_vec.end(), renderAble);
+		if (iter == render_vec.end())
+		{
+			render_vec.push_back(renderAble);
+		}
 	}
 
 } 
