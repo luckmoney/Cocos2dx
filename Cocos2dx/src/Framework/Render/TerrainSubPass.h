@@ -1,0 +1,8 @@
+#pragma  once 
+#include "SubPass.h"
+
+namespace Cocos {
+	class TerrainSubPass :public SubPass {
+		void Draw();
+	};
+}
