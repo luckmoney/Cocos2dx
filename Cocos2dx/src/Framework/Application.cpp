@@ -59,7 +59,7 @@ namespace Cocos {
 
 	void Application::InitScene() {
 		auto obj = m_SceneSystem->GetSceneObject();
-		obj->AddRenderAble(Cube::create());
+
 
 	}
 }

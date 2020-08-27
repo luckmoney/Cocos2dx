@@ -8,7 +8,7 @@ namespace Cocos {
 		int Initialize();
 		void Tick();
 		void Finalize();
-	private:
-		std::vector<Pass*> m_psses;
+
+
 	};
 }

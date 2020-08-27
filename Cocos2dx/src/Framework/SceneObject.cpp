@@ -1,4 +1,4 @@
-#include "Framework/SceneObject.h"
+#include "SceneObject.h"
 
 namespace Cocos {
 	SceneObject* SceneObject::create() {
@@ -20,12 +20,6 @@ namespace Cocos {
 			++iter;
 		}
 
-		auto render = render_vec.begin();
-		while (render != render_vec.end())
-		{
-			(*render)->Render();
-			++render;
-		}
 	}
 
 	void SceneObject::setPosition(Vec3 pos)
@@ -44,12 +38,5 @@ namespace Cocos {
 	}
 
 
-	void SceneObject::AddRenderAble(RenderAble* renderAble) {
-		auto iter = std::find(render_vec.begin(), render_vec.end(), renderAble);
-		if (iter == render_vec.end())
-		{
-			render_vec.push_back(renderAble);
-		}
-	}
 
 } 

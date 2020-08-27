@@ -1,6 +1,5 @@
 #pragma  once
 
-
 #include "Framework/Cocos2dx.h"
 
 namespace Cocos {

@@ -17,33 +17,26 @@
 
 
 
-namespace Cocos {
-	class InputSystem;
-	class SceneSystem;
-	class RenderSystem;
-	class RednerAble;
-	class Cube;
-	class Pass;
-	class ShadowPass;
-	class ForwardPass;
-	class SkyboxSubPass;
-}
+class Application;
+class InputSystem;
+class SceneSystem;
+class RenderSystem;
 
+
+
+class Pass;
+class ShadowPass;
+class ForwardPass;
+
+class SubPass;
+class GeometrySubPass;
+class SkyboxSubPass;
+class TerrainSubPass;
 
 
 #include "Framework/Common.h"
 
 
-#include "Framework/Render/Pass.h"
-#include "Framework/Render/ForwardPass.h"
-#include "Framework/Render/GeometrySubPass.h"
-#include "Framework/Render/Material.h"
-#include "Framework/Render/Shader.h"
-#include "Framework/Render/SkyboxSubPass.h"
-#include "Framework/Render/SubPass.h"
-#include "Framework/Render/TerrainSubPass.h"
-#include "Framework/Render/Texture.h"
-#include "Framework/Render/ShadowPass.h"
 
 
 
@@ -54,10 +47,4 @@ namespace Cocos {
 #include "Framework/SceneObject.h"
 #include "Framework/SceneSystem.h"
 #include "Framework/Windows.h"
-
-#include "Framework/RenderAble.h"
-#include "Framework/Cube.h"
-
-
-
 

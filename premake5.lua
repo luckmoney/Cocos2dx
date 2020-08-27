@@ -53,8 +53,7 @@ project "Cocos2dx"
         "%{prj.name}/Indepence/GLFW/include",
         "%{prj.name}/Indepence/GLM",
         "%{prj.name}/src",
-        "%{prj.name}/src/Framework",
-        "%{prj.name}/src/Framework/Render",
+        "%{prj.name}/src/Framework"
     }
 
 

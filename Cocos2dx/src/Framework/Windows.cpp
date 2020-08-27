@@ -20,8 +20,6 @@ namespace Cocos {
 	{
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, true);
-
-
 	}
 
 
@@ -60,7 +58,6 @@ namespace Cocos {
 		glfwSetCursorPosCallback(m_window, mouse_callback);
 		glfwSetScrollCallback(m_window, scroll_callback);
 		glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
-
 
 		return 0;
 	}
