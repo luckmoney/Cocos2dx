@@ -14,4 +14,6 @@ namespace Cocos {
 	private:
 		SceneObject *m_object;
 	};
+
+	extern SceneSystem* g_SceneSystem;
 }

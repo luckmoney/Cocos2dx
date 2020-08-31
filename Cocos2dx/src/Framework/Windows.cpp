@@ -1,6 +1,9 @@
+#include <glad/glad.h>
 #include "Framework/Windows.h"
 
 namespace Cocos {
+
+	Windows *g_Window = new Windows();
 
 	void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	{
@@ -50,11 +53,13 @@ namespace Cocos {
 			return -1;
 		}
 		glfwMakeContextCurrent(m_window);
+
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			std::cout << "Failed to initialize GLAD" << std::endl;
+			std::cout << "Failed to initialize Glad " << std::endl;
 			return -1;
 		}
+	
 		glfwSetCursorPosCallback(m_window, mouse_callback);
 		glfwSetScrollCallback(m_window, scroll_callback);
 		glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);

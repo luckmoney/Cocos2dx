@@ -6,7 +6,12 @@
 namespace Cocos {
 
 	ForwardPass::~ForwardPass() {
-
+		auto iter = m_subpasses.begin();
+		while (iter != m_subpasses.begin())
+		{
+			delete *iter;
+			++iter;
+		}
 	}
 
 	void ForwardPass::Init() {
@@ -22,6 +27,12 @@ namespace Cocos {
 
 
 	void ForwardPass::Draw() {
-	
+		auto iter = m_subpasses.begin();
+		while (iter != m_subpasses.end())
+		{
+			(*iter)->Draw();
+			++iter;
+		}
+
 	}
 }

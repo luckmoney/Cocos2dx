@@ -32,9 +32,6 @@ project "Cocos2dx"
         "%{prj.name}/**.h",
         "%{prj.name}/**.cpp",
         "%{prj.name}/**.c",
-        "%{prj.name}/**.vs",
-        "%{prj.name}/**.gs",
-        "%{prj.name}/**.fs"
     }
 
     -- excludes 
@@ -44,16 +41,14 @@ project "Cocos2dx"
 
     defines
 	{
-		"_CRT_SECURE_NO_WARNINGS"
+		--"_CRT_SECURE_NO_WARNINGS"
 	}
 
     includedirs {
         "%{prj.name}/Indepence/GLAD/include",
-        "%{prj.name}/Indepence/Assimp/include",
         "%{prj.name}/Indepence/GLFW/include",
         "%{prj.name}/Indepence/GLM",
-        "%{prj.name}/src",
-        "%{prj.name}/src/Framework"
+        "%{prj.name}/src"
     }
 
 
@@ -70,21 +65,21 @@ project "Cocos2dx"
         runtime "Debug"
         symbols "on"
         links {
-            "glfw3","opengl32","assimp",
+            "glfw3","opengl32"
         }
 
     filter "configurations:Release"
         runtime "Release"
         optimize "on"
         links {
-            "glfw3","opengl32","assimp",
+            "glfw3","opengl32"
         }
 
     configuration "windows"
         postbuildcommands {
-            ("{COPY} %{wks.location}../%{prj.name}/shader    %{wks.location}../bin/"..outputdir .."/%{prj.name}/shader"),
-            ("{COPY} %{wks.location}../%{prj.name}/res    %{wks.location}../bin/"..outputdir .."/%{prj.name}/res"),
-            ("{COPY} %{wks.location}../dll %{wks.location}../bin/"..outputdir.."/%{prj.name}" ) 
+            -- ("{COPY} %{wks.location}../%{prj.name}/shader    %{wks.location}../bin/"..outputdir .."/%{prj.name}/shader"),
+            -- ("{COPY} %{wks.location}../%{prj.name}/res   %{wks.location}../bin/"..outputdir .."/%{prj.name}/res"),
+            -- ("{COPY} %{wks.location}../dll  %{wks.location}../bin/"..outputdir.."/%{prj.name}" ) 
        
         }
 

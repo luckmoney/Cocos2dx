@@ -8,4 +8,6 @@ namespace Cocos {
 		void Tick();
 		void Finalize();
 	};
+
+	extern InputSystem* g_InputSystem;
 }

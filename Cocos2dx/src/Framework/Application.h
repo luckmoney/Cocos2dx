@@ -16,9 +16,5 @@ namespace Cocos {
 
 	private:
 		bool m_bQuit;
-		Windows *m_window;
-		InputSystem *m_InputSystem;
-		SceneSystem *m_SceneSystem;
-		RenderSystem *m_RenderSystem;
 	};
 }

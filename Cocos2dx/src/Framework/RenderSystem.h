@@ -3,6 +3,7 @@
 
 
 namespace Cocos {
+
 	class RenderSystem :public IRuntimeModule {
 	public:
 		int Initialize();
@@ -10,5 +11,10 @@ namespace Cocos {
 		void Finalize();
 
 
+	private:
+		std::vector<Pass*> m_passes;
 	};
+
+
+	extern RenderSystem *g_RenderSystem;
 }

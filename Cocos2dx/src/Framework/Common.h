@@ -5,4 +5,3 @@
 #define  WINDOWSHEIGHT 600
 
 typedef glm::vec3 Vec3;
-

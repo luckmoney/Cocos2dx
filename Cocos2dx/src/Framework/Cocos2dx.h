@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glad/glad.h> 
+
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
@@ -33,11 +33,24 @@ class GeometrySubPass;
 class SkyboxSubPass;
 class TerrainSubPass;
 
+class OpenglRender;
+
 
 #include "Framework/Common.h"
+#include "Framework/FrameStructure.h"
+#include "Framework/PipelineStateManager.h"
 
 
-
+#include "Framework/Render/Pass.h"
+#include "Framework/Render/SubPass.h"
+#include "Framework/Render/ForwardPass.h"
+#include "Framework/Render/GeometrySubPass.h"
+#include "Framework/Render/Material.h"
+#include "Framework/Render/Shader.h"
+#include "Framework/Render/ShadowPass.h"
+#include "Framework/Render/SkyboxSubPass.h"
+#include "Framework/Render/TerrainSubPass.h"
+#include "Framework/Render/Texture.h"
 
 
 #include "Framework/IRuntimeModule.h"
@@ -47,4 +60,4 @@ class TerrainSubPass;
 #include "Framework/SceneObject.h"
 #include "Framework/SceneSystem.h"
 #include "Framework/Windows.h"
-
+#include "Framework/Render/OpenglRender.h"

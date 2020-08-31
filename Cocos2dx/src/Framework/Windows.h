@@ -15,4 +15,6 @@ namespace Cocos {
 		float m_lastFrame;
 		GLFWwindow* m_window;
 	};
+
+	extern Windows* g_Window;
 }

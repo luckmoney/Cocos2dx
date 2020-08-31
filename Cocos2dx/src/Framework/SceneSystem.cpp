@@ -1,6 +1,8 @@
 #include "Framework/SceneSystem.h"
 
 namespace Cocos {
+	SceneSystem* g_SceneSystem = new SceneSystem();
+
 	int SceneSystem::Initialize() {
 		m_object = SceneObject::create();
 		return 0;
