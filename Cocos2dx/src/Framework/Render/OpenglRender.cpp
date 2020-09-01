@@ -8,11 +8,31 @@ namespace Cocos {
 
 
 	void OpenglRender::BeginScene() {
+
+	}
+
+	void OpenglRender::EndScene() {
+		for (auto &buffer_id:m_buffers )
+		{
+			glDeleteBuffers(1, &buffer_id);
+		}
+		m_buffers.clear();
+	}
+
+	void OpenglRender::BeginFrame() {
 		glClearColor(0.0, 0.0, 0.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenglRender::EndScene() {
+	void OpenglRender::EndFrame() {
+
+	}
+
+	void OpenglRender::InitGeometries() {
+
+	}
+
+	void OpenglRender::InitSkyBox() {
 
 	}
 
@@ -35,6 +55,8 @@ namespace Cocos {
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, nullptr);
 
 		glDrawArrays(GL_POINT, 0x00, 1);
+
+		m_buffers.push_back(buffer_id);
 	}
 
 	void OpenglRender::DrawLine()
@@ -45,6 +67,8 @@ namespace Cocos {
 		glBindVertexArray(vao);
 
 		GLuint buffer_id;
+		m_buffers.push_back(buffer_id);
+
 		glGenBuffers(1, &buffer_id);
 		glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 
@@ -67,6 +91,7 @@ namespace Cocos {
 		GLuint buffer_id;
 		glGenBuffers(1, &buffer_id);
 		glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
+		m_buffers.push_back(buffer_id);
 
 		float arr[]{ -0.5,0,0,0.5,0,0,0,0.5,0 };
 		glBufferData(GL_ARRAY_BUFFER, sizeof(arr), arr, GL_STATIC_DRAW);

@@ -29,7 +29,6 @@ namespace Cocos {
 
 	void ForwardPass::Draw() {
 
-
 		auto iter = m_subpasses.begin();
 		while (iter != m_subpasses.end())
 		{

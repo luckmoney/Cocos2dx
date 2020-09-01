@@ -13,16 +13,20 @@ namespace Cocos {
 		forward->Init();
 		m_passes.push_back(forward);
 
+		//g_openglRender->BeginScene();
+
 		return 0;
 	}
 
 	void RenderSystem::Tick() {
+		g_openglRender->BeginFrame();
 		auto iter = m_passes.begin();
 		while (iter != m_passes.end())
 		{
 			(*iter)->Draw();
 			++iter;
 		}
+		g_openglRender->EndFrame();
 	}
 
 	void RenderSystem::Finalize() {
@@ -32,7 +36,7 @@ namespace Cocos {
 			delete (*iter);
 			++iter;
 		}
-
+		g_openglRender->EndScene();
 	}
 
 }

@@ -20,6 +20,16 @@ namespace Cocos {
 		registerPipelineState(geoPipeline);
 
 
+		PipelineState skyboxPipeline;
+		skyboxPipeline.pipelineStateName = "SkyBox";
+		skyboxPipeline.vertexShaderName = "../Cocos2dx/shader/skybox.vs";
+		skyboxPipeline.pixelShaderName =  "../Cocos2dx/shader/skybox.fs";
+		skyboxPipeline.cullFaceMode = CULL_FACE_MODE::NONE;
+		skyboxPipeline.depthTestMode = DEPTH_TEST_MODE::ALWAYS;
+		registerPipelineState(skyboxPipeline);
+
+
+
 
 		return 0;
 	}

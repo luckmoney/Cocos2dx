@@ -24,3 +24,8 @@ PipelineStateManager
 
 //資源管理器，先實現shader文件的加載，後期拓展
 AssetsManager
+
+
+opengl部分，根据点数据画图
+drawcontext 对点数据的封装，传给opengl的画图部分
+scene结构管理

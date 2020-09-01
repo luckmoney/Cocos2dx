@@ -77,9 +77,8 @@ project "Cocos2dx"
 
     configuration "windows"
         postbuildcommands {
-            -- ("{COPY} %{wks.location}../%{prj.name}/shader    %{wks.location}../bin/"..outputdir .."/%{prj.name}/shader"),
-            -- ("{COPY} %{wks.location}../%{prj.name}/res   %{wks.location}../bin/"..outputdir .."/%{prj.name}/res"),
-            -- ("{COPY} %{wks.location}../dll  %{wks.location}../bin/"..outputdir.."/%{prj.name}" ) 
+             ("{COPY} %{wks.location}../%{prj.name}/shader    %{wks.location}../bin/"..outputdir .."/%{prj.name}/shader"),
+             ("{COPY} %{wks.location}../%{prj.name}/res   %{wks.location}../bin/"..outputdir .."/%{prj.name}/res"),
        
         }
 
