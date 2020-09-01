@@ -8,7 +8,8 @@ namespace Cocos {
 
 
 	void OpenglRender::BeginScene() {
-
+		glClearColor(0.0, 0.0, 0.0, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenglRender::EndScene() {
@@ -27,7 +28,7 @@ namespace Cocos {
 		glGenBuffers(1, &buffer_id);
 		glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 
-		float arr[2]{0,0};
+		float arr[3]{0,0,0};
 		glBufferData(GL_ARRAY_BUFFER, sizeof(arr), arr, GL_STATIC_DRAW);
 
 		glEnableVertexAttribArray(0);
@@ -38,12 +39,42 @@ namespace Cocos {
 
 	void OpenglRender::DrawLine()
 	{
+		GLuint vao;
+		glGenVertexArrays(1, &vao);
 
+		glBindVertexArray(vao);
+
+		GLuint buffer_id;
+		glGenBuffers(1, &buffer_id);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
+
+		float arr[]{ -0.5,0,0,0.5,0,0 };
+		glBufferData(GL_ARRAY_BUFFER, sizeof(arr), arr, GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0,3, GL_FLOAT, false, 0, nullptr);
+
+		glDrawArrays(GL_LINE, 0x00, 2);
 	}
 
 	void OpenglRender::DrawTriangle()
 	{
+		GLuint vao;
+		glGenVertexArrays(1, &vao);
 
+		glBindVertexArray(vao);
+
+		GLuint buffer_id;
+		glGenBuffers(1, &buffer_id);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
+
+		float arr[]{ -0.5,0,0,0.5,0,0,0,0.5,0 };
+		glBufferData(GL_ARRAY_BUFFER, sizeof(arr), arr, GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, nullptr);
+
+		glDrawArrays(GL_TRIANGLES, 0x00, 3);
 	}
 
 	void OpenglRender::DrawGeometry() {

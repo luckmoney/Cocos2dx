@@ -10,6 +10,7 @@
 #include <map>
 #include <functional>
 #include <algorithm>
+#include <unordered_map>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -22,6 +23,8 @@ class InputSystem;
 class SceneSystem;
 class RenderSystem;
 
+class PipelineStateManager;
+class AssetsManager;
 
 
 class Pass;
@@ -35,10 +38,13 @@ class TerrainSubPass;
 
 class OpenglRender;
 
+class PipelineState;
 
+
+#include "Framework/IRuntimeModule.h"
 #include "Framework/Common.h"
 #include "Framework/FrameStructure.h"
-#include "Framework/PipelineStateManager.h"
+
 
 
 #include "Framework/Render/Pass.h"
@@ -51,13 +57,16 @@ class OpenglRender;
 #include "Framework/Render/SkyboxSubPass.h"
 #include "Framework/Render/TerrainSubPass.h"
 #include "Framework/Render/Texture.h"
+#include "Framework/Render/OpenglRender.h"
 
 
-#include "Framework/IRuntimeModule.h"
+
 #include "Framework/Application.h"
 #include "Framework/InputSystem.h"
 #include "Framework/RenderSystem.h"
 #include "Framework/SceneObject.h"
 #include "Framework/SceneSystem.h"
 #include "Framework/Windows.h"
-#include "Framework/Render/OpenglRender.h"
+#include "Framework/PipelineStateManager.h"
+#include "Framework/AssetsManager.h"
+#include "Framework/PipelineStateManager.h"

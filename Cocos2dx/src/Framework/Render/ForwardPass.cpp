@@ -3,6 +3,7 @@
 #include "SkyboxSubPass.h"
 #include "TerrainSubPass.h"
 
+
 namespace Cocos {
 
 	ForwardPass::~ForwardPass() {
@@ -27,6 +28,8 @@ namespace Cocos {
 
 
 	void ForwardPass::Draw() {
+
+
 		auto iter = m_subpasses.begin();
 		while (iter != m_subpasses.end())
 		{

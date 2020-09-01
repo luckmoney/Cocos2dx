@@ -7,6 +7,8 @@ namespace Cocos {
 		g_RenderSystem->Initialize();
 		g_Window->Initialize();
 
+		g_PipelineManager->Initialize();
+
 		m_bQuit = false;
 
 		InitScene();

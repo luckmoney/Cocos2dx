@@ -18,3 +18,9 @@ SceneObject
 
 RenderAble
 
+
+//渲染管线状态管理器，实现初步状态管理
+PipelineStateManager
+
+//資源管理器，先實現shader文件的加載，後期拓展
+AssetsManager

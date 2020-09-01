@@ -1,14 +1,13 @@
 #pragma once 
-
-#include <string>
+#include "Framework/Cocos2dx.h"
 namespace Cocos {
 
-	enum DEPTH_TEST_MODE
+	enum class DEPTH_TEST_MODE
 	{
 		NONE,LARGE,LARGE_EQUAL,EQUAL,LESS_EQUAL,LESS,NOT_EQUAL,NEVER,ALWAYS
 	};
 
-	enum CULL_FACE_MODE {
+	enum class CULL_FACE_MODE {
 		NONE,FRONT,BACK
 	};
 
@@ -26,4 +25,25 @@ namespace Cocos {
 		uint32_t shaderProgram = 0;
 	
 	};
+
+
+	class PipelineStateManager :public IRuntimeModule {
+	public:
+		int Initialize();
+		void Tick() {};
+		void Finalize();
+
+		PipelineState& GetPipelineState(const std::string&);
+
+	private: 
+		bool registerPipelineState(PipelineState&);
+
+		void checkCompileErrors(unsigned int shader, std::string type);
+
+	private:
+		std::unordered_map<std::string, PipelineState> m_pipeline_map;
+
+	};
+
+	extern PipelineStateManager* g_PipelineManager;
 }
