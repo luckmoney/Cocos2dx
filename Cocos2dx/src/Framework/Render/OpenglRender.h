@@ -3,7 +3,7 @@
 #include "FrameWork/RenderSystem.h"
 
 namespace Cocos {
-	class OpenglRender {
+	class OpenglRender:public RenderSystem {
 	public:
 		void BeginScene();
 		void EndScene();
@@ -36,5 +36,4 @@ namespace Cocos {
 		std::vector<GLuint> m_buffers;
 	};
 
-	extern OpenglRender *g_openglRender;
 }

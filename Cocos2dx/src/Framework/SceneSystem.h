@@ -11,8 +11,13 @@ namespace Cocos {
 		virtual void Tick();
 		SceneObject* GetSceneObject();
 
+		std::vector<SceneObject>& GetGeoArrary();
+
 	private:
 		SceneObject *m_object;
+		
+		std::vector<SceneObject> m_geoVec;
+
 	};
 
 	extern SceneSystem* g_SceneSystem;

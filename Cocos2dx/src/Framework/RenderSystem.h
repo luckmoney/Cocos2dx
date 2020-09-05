@@ -10,9 +10,20 @@ namespace Cocos {
 		void Tick();
 		void Finalize();
 
+		virtual void BeginScene();
+		void EndScene(){}
 
-	private:
+		virtual void BeginFrame() =0;
+		void EndFrame(){}
+
+		void SetPipelineState(PipelineState*) {};
+		void DrawBatch() {};
+		void DrawSkyBox() {};
+
+	protected:
 		std::vector<Pass*> m_passes;
+		std::vector<Frame> m_Frames;
+
 	};
 
 

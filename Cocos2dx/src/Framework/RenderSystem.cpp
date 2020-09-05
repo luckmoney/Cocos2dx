@@ -1,10 +1,11 @@
 #include "Framework/RenderSystem.h"
 
 namespace Cocos {
-	RenderSystem *g_RenderSystem = new RenderSystem();
-
 
 	int RenderSystem::Initialize() {
+
+		Frame frame;
+		m_Frames.push_back(std::move(frame));
 
 		ShadowPass *shadow = new ShadowPass();
 		m_passes.push_back(shadow);
@@ -13,20 +14,20 @@ namespace Cocos {
 		forward->Init();
 		m_passes.push_back(forward);
 
-		//g_openglRender->BeginScene();
+		BeginScene();
 
 		return 0;
 	}
 
 	void RenderSystem::Tick() {
-		g_openglRender->BeginFrame();
+		BeginFrame();
 		auto iter = m_passes.begin();
 		while (iter != m_passes.end())
 		{
 			(*iter)->Draw();
 			++iter;
 		}
-		g_openglRender->EndFrame();
+		EndFrame();
 	}
 
 	void RenderSystem::Finalize() {
@@ -36,7 +37,11 @@ namespace Cocos {
 			delete (*iter);
 			++iter;
 		}
-		g_openglRender->EndScene();
+		EndScene();
 	}
 
+
+	void RenderSystem::BeginScene() {
+		
+	}
 }

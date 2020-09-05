@@ -5,8 +5,8 @@ namespace Cocos {
 	void SkyboxSubPass::Draw() {
 
 		auto pipelineState = g_PipelineManager->GetPipelineState("SkyBox");
-		g_openglRender->SetPipelineState(&pipelineState);
+		g_RenderSystem->SetPipelineState(&pipelineState);
 
-		g_openglRender->DrawSkyBox();
+		g_RenderSystem->DrawSkyBox();
 	}
 }

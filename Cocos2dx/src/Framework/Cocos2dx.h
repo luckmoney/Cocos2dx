@@ -2,7 +2,7 @@
 
 
 #include <GLFW/glfw3.h>
-
+#include <glm/glm.hpp>
 
 #include <ostream>
 #include <iostream>
@@ -39,7 +39,6 @@ class TerrainSubPass;
 class OpenglRender;
 
 class PipelineState;
-class SceneObject;
 
 
 
@@ -65,7 +64,6 @@ class SceneObject;
 #include "Framework/Render/SkyboxSubPass.h"
 #include "Framework/Render/TerrainSubPass.h"
 #include "Framework/Render/Texture.h"
-#include "Framework/Render/OpenglRender.h"
 
 
 

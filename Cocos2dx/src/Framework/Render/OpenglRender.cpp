@@ -4,11 +4,12 @@
 
 
 namespace Cocos {
-	OpenglRender *g_openglRender = new OpenglRender();
+	RenderSystem *g_RenderSystem = static_cast<RenderSystem*>(new OpenglRender);
 
 
 	void OpenglRender::BeginScene() {
-
+		InitGeometries();
+		InitSkyBox();
 	}
 
 	void OpenglRender::EndScene() {
@@ -20,7 +21,7 @@ namespace Cocos {
 	}
 
 	void OpenglRender::BeginFrame() {
-		glClearColor(0.0, 0.0, 0.0, 1.0);
+		glClearColor(0.3, 0.3, 0.3, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
@@ -29,6 +30,108 @@ namespace Cocos {
 	}
 
 	void OpenglRender::InitGeometries() {
+		auto geoVec = g_SceneSystem->GetGeoArrary();
+		for (auto &object: geoVec)
+		{
+			auto object_mesh_vec = object.GetMeshArrary();
+			for (auto &mesh : object_mesh_vec)
+			{
+
+
+
+				GLuint vao;
+				glGenVertexArrays(1, &vao);
+				glBindVertexArray(vao);
+
+				uint32_t mode;
+				auto m_type = mesh.GetType();
+				switch (m_type)
+				{
+				case Cocos::MeshPrimitiveType::kPrimitiveTypePointList:
+					mode = GL_POINT;
+					break;
+				case Cocos::MeshPrimitiveType::kPrimitiveTypeLineList:
+					mode = GL_LINE;
+					break;
+				case Cocos::MeshPrimitiveType::kPrimitiveTypeTriList:
+					mode = GL_TRIANGLES;
+					break;
+				default:
+					break;
+				}
+
+				auto vertex_vec = mesh.GetSceneVertexArrary();	
+				unsigned int idx = 0;
+
+				for (auto &vertex: vertex_vec)
+				{
+					GLuint vbo;
+					glGenVertexArrays(1, &vbo);
+					glBindBuffer(GL_ARRAY_BUFFER, vbo);
+					glBufferData(GL_ARRAY_BUFFER, vertex.GetSize(), vertex.GetData(), GL_STATIC_DRAW);
+					glEnableVertexAttribArray(idx);
+					m_buffers.push_back(vbo);
+					auto type = vertex.GetDataType();
+					switch (type)
+					{
+					case Cocos::VertexType::Float1:
+						glVertexAttribPointer(0, 1, GL_FLOAT, false, 0, nullptr);
+						break;
+					case Cocos::VertexType::Float2:
+						glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, nullptr);
+						break;
+					case Cocos::VertexType::Float3:
+						glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, nullptr);
+						break;
+					case Cocos::VertexType::Float4:
+						glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, nullptr);
+						break;
+					default:
+						break;
+					}
+					++idx;
+				}
+
+				auto index_vec = mesh.GetSceneIndexArrary();
+				for (auto &Index:index_vec)
+				{
+					GLuint ibo;
+					glGenVertexArrays(1, &ibo);
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+					glBufferData(GL_ELEMENT_ARRAY_BUFFER, Index.GetSize(), Index.GetData(), GL_STATIC_DRAW);
+
+					uint32_t type;
+					auto index_type = Index.GetType();
+					switch (index_type)
+					{
+					case IndexType::kIndexDataTypeInt8:
+						type = GL_UNSIGNED_BYTE;
+						break;
+					case IndexType::kIndexDataTypeInt16:
+						type = GL_UNSIGNED_SHORT;
+						break;
+					case IndexType::kIndexDataTypeInt32:
+						type = GL_UNSIGNED_INT;
+					default:
+						break;
+					}
+
+					DrawBatchContext dbc;
+					dbc.vao = vao;
+					dbc.mode = mode;
+					dbc.count = Index.GetCount();
+					dbc.type = type;
+
+					for (unsigned int i = 0; i < m_Frames.size(); ++i)
+					{
+						m_Frames[i].m_batchContext.push_back(dbc);
+					}
+				}
+
+				glBindVertexArray(0);
+
+			}
+		}
 
 	}
 
@@ -120,7 +223,14 @@ namespace Cocos {
 
 	void OpenglRender::DrawBatch()
 	{
-
+		for (auto &frame:m_Frames)
+		{
+			for (auto &context:frame.m_batchContext)
+			{
+				glBindVertexArray(context.vao);
+				glDrawElements(context.mode, context.count, context.type, nullptr);
+			}
+		}
 	}
 
 	void OpenglRender::SetPipelineState(PipelineState* pipelineState)

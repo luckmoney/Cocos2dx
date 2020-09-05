@@ -2,6 +2,7 @@
 #include "Framework/Cocos2dx.h"
 namespace Cocos {
 
+	enum class MeshPrimitiveType{ kPrimitiveTypePointList, kPrimitiveTypeLineList, kPrimitiveTypeTriList };
 
 	class SceneMesh  {
 	public:
@@ -20,8 +21,11 @@ namespace Cocos {
 			return m_indexArr;
 		}
 
+		MeshPrimitiveType& GetType() { return m_type; }
+
 	private:
 		std::vector<SceneVertexArrary> m_vertexArr;
 		std::vector<SceneIndexArrary> m_indexArr;
+		MeshPrimitiveType m_type;
 	};
 }
