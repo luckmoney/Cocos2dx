@@ -2,7 +2,7 @@
 
 
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+
 
 #include <ostream>
 #include <iostream>
@@ -39,12 +39,20 @@ class TerrainSubPass;
 class OpenglRender;
 
 class PipelineState;
+class SceneObject;
+
+
 
 
 #include "Framework/IRuntimeModule.h"
 #include "Framework/Common.h"
 #include "Framework/FrameStructure.h"
 
+
+#include "Framework/Base/SceneObject.h"
+#include "Framework/Base/SceneVertexArrary.h"
+#include "Framework/Base/SceneIndexArrary.h"
+#include "Framework/Base/SceneMesh.h"
 
 
 #include "Framework/Render/Pass.h"
@@ -64,7 +72,7 @@ class PipelineState;
 #include "Framework/Application.h"
 #include "Framework/InputSystem.h"
 #include "Framework/RenderSystem.h"
-#include "Framework/SceneObject.h"
+
 #include "Framework/SceneSystem.h"
 #include "Framework/Windows.h"
 #include "Framework/PipelineStateManager.h"

@@ -1,4 +1,4 @@
-#include "SceneObject.h"
+#include "Framework/Base/SceneObject.h"
 
 namespace Cocos {
 	SceneObject* SceneObject::create() {
@@ -38,5 +38,7 @@ namespace Cocos {
 	}
 
 
-
+	void SceneObject::AddMesh(SceneMesh&& mesh) {
+		m_MeshVec.push_back(std::forward<SceneMesh>(mesh));
+	}
 } 
