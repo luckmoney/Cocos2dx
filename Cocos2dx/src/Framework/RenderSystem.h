@@ -16,13 +16,15 @@ namespace Cocos {
 		virtual void BeginFrame() =0;
 		void EndFrame(){}
 
-		void SetPipelineState(PipelineState*) {};
-		void DrawBatch() {};
-		void DrawSkyBox() {};
+		virtual void SetPipelineState(PipelineState*) {};
+		virtual void DrawBatch() {};
+		virtual void DrawSkyBox() {};
 
 	protected:
 		std::vector<Pass*> m_passes;
 		std::vector<Frame> m_Frames;
+		
+		SceneSystem *m_crtScene;
 
 	};
 

@@ -38,7 +38,7 @@ namespace Cocos {
 	}
 
 
-	void SceneObject::AddMesh(SceneMesh&& mesh) {
+	void SceneObject::AddMesh(SceneMesh mesh) {
 		m_MeshVec.push_back(std::forward<SceneMesh>(mesh));
 	}
 } 

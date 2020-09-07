@@ -7,6 +7,18 @@ namespace Cocos {
 
 	class SceneIndexArrary {
 	public:
+		SceneIndexArrary(uint32_t* data,uint32_t size, IndexType type)
+		:m_data(data)
+		,m_type(type)
+		,m_size(size){
+
+		}
+
+		SceneIndexArrary()
+		:m_data(0)
+		,m_size(0){
+		}
+
 		const uint32_t* GetData() {
 			return m_data;
 		}

@@ -13,6 +13,8 @@ namespace Cocos {
 
 		std::vector<SceneObject>& GetGeoArrary();
 
+		void AddObject(SceneObject&);
+
 	private:
 		SceneObject *m_object;
 		

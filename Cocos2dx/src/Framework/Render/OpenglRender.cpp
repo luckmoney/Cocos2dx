@@ -30,15 +30,14 @@ namespace Cocos {
 	}
 
 	void OpenglRender::InitGeometries() {
+
+
 		auto geoVec = g_SceneSystem->GetGeoArrary();
 		for (auto &object: geoVec)
 		{
 			auto object_mesh_vec = object.GetMeshArrary();
 			for (auto &mesh : object_mesh_vec)
 			{
-
-
-
 				GLuint vao;
 				glGenVertexArrays(1, &vao);
 				glBindVertexArray(vao);
@@ -66,7 +65,7 @@ namespace Cocos {
 				for (auto &vertex: vertex_vec)
 				{
 					GLuint vbo;
-					glGenVertexArrays(1, &vbo);
+					glGenBuffers(1, &vbo);
 					glBindBuffer(GL_ARRAY_BUFFER, vbo);
 					glBufferData(GL_ARRAY_BUFFER, vertex.GetSize(), vertex.GetData(), GL_STATIC_DRAW);
 					glEnableVertexAttribArray(idx);
@@ -96,7 +95,7 @@ namespace Cocos {
 				for (auto &Index:index_vec)
 				{
 					GLuint ibo;
-					glGenVertexArrays(1, &ibo);
+					glGenBuffers(1, &ibo);
 					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 					glBufferData(GL_ELEMENT_ARRAY_BUFFER, Index.GetSize(), Index.GetData(), GL_STATIC_DRAW);
 

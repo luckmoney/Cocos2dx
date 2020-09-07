@@ -4,6 +4,8 @@ namespace Cocos {
 
 	int RenderSystem::Initialize() {
 
+		m_crtScene = nullptr;
+
 		Frame frame;
 		m_Frames.push_back(std::move(frame));
 
@@ -14,12 +16,18 @@ namespace Cocos {
 		forward->Init();
 		m_passes.push_back(forward);
 
-		BeginScene();
+
 
 		return 0;
 	}
 
 	void RenderSystem::Tick() {
+		if (m_crtScene != g_SceneSystem)
+		{
+			BeginScene();
+			m_crtScene = g_SceneSystem;
+		}
+
 		BeginFrame();
 		auto iter = m_passes.begin();
 		while (iter != m_passes.end())
@@ -44,4 +52,6 @@ namespace Cocos {
 	void RenderSystem::BeginScene() {
 		
 	}
+
+
 }

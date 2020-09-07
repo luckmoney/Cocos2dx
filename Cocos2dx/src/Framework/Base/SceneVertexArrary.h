@@ -5,7 +5,15 @@ namespace Cocos {
 
 	class SceneVertexArrary {
 	public:
-		const uint32_t* GetData() {
+		SceneVertexArrary(float *data,size_t size,VertexType type)
+		:m_data(data)
+		,m_size(size)
+		,m_type(type){
+
+		}
+
+
+		const float* GetData() {
 			return m_data;
 		};
 
@@ -16,8 +24,8 @@ namespace Cocos {
 		VertexType& GetDataType() { return m_type; }
 
 	private:
-		const uint32_t *m_data;
+		const float *m_data;
 		const size_t m_size;
-		VertexType& m_type;
+		VertexType m_type;
 	};
 }

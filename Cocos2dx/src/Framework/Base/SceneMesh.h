@@ -6,10 +6,10 @@ namespace Cocos {
 
 	class SceneMesh  {
 	public:
-		void AddVertexArrary(SceneVertexArrary&& data) {
+		void AddVertexArrary(SceneVertexArrary data) {
 			m_vertexArr.push_back(std::forward<SceneVertexArrary>(data));
 		};
-		void AddIndexArrary(SceneIndexArrary&&data) {
+		void AddIndexArrary(SceneIndexArrary data) {
 			m_indexArr.push_back(std::forward<SceneIndexArrary>(data));
 		};
 
@@ -19,6 +19,10 @@ namespace Cocos {
 
 		std::vector<SceneIndexArrary>& GetSceneIndexArrary() {
 			return m_indexArr;
+		}
+
+		void Type(MeshPrimitiveType type) {
+			m_type = type;
 		}
 
 		MeshPrimitiveType& GetType() { return m_type; }

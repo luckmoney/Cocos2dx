@@ -24,4 +24,8 @@ namespace Cocos {
 	std::vector<SceneObject>& SceneSystem::GetGeoArrary() {
 		return m_geoVec;
 	}
+
+	void SceneSystem::AddObject(SceneObject& obj) {
+		m_geoVec.push_back(std::move(obj));
+	}
 }

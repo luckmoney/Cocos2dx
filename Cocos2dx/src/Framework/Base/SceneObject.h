@@ -17,7 +17,7 @@ namespace Cocos {
 
 		void setPosition(Vec3);
 
-		void AddMesh(SceneMesh&&);
+		void AddMesh(SceneMesh);
 
 		std::vector<SceneMesh>& GetMeshArrary() {
 			return m_MeshVec;
