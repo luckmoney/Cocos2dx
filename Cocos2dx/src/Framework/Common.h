@@ -6,3 +6,5 @@
 #define  WINDOWSHEIGHT 600
 
 typedef glm::vec3 Vec3;
+typedef glm::vec4 Color;
+typedef glm::vec3 Normal;

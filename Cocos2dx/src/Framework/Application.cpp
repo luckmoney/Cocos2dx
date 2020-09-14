@@ -50,47 +50,10 @@ namespace Cocos {
 
 
 
-	void AddMesh(float *vertex_data, size_t vsize, uint32_t *index_data, size_t isize) {
-		SceneMesh mesh;
-		mesh.Type(MeshPrimitiveType::kPrimitiveTypeTriList);
-
-		SceneIndexArrary indexArr(index_data, isize * sizeof(float), IndexType::kIndexDataTypeInt32);
-		mesh.AddIndexArrary(std::move(indexArr));
-
-		SceneVertexArrary verArr(vertex_data, vsize * sizeof(float), VertexType::Float3);
-		mesh.AddVertexArrary(std::move(verArr));
-
-		SceneObject obj;
-		obj.AddMesh(mesh);
-		g_SceneSystem->AddObject(obj);
-	}
-
-
 	void Application::InitScene() {
 
-		size_t i_size = 6;
-		uint32_t* index_data = new uint32_t[6]{
-			0,1,2,
-			0,2,3
-		};
-		size_t size = 12;
-		float* vertex_data = new float[size] {
-			0, 0, 0,
-				0.5, 0, 0,
-				0.5, 0.5, 0,
-				0, 0.5, 0
-		};
-
-		AddMesh(vertex_data, size, index_data, i_size);
-
-		float* vertex_data_1 = new float[size] {
-				-0.5, 0.5, 0,
-				0, 0.5, 0,
-				0, -0.5, 0,
-				-0.5, -0.5, 0
-		};
-		AddMesh(vertex_data_1, size, index_data, i_size);
-
+		//g_AssetsManager->loadModel("../Cocos2dx/res/objects/cube.obj");
+		g_AssetsManager->loadModel("../Cocos2dx/res/objects/nanosuit/nanosuit.obj");
 
 	}
 

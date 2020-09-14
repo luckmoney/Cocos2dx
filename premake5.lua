@@ -48,6 +48,7 @@ project "Cocos2dx"
         "%{prj.name}/Indepence/GLAD/include",
         "%{prj.name}/Indepence/GLFW/include",
         "%{prj.name}/Indepence/GLM",
+        "%{prj.name}/Indepence/Assimp/include",
         "%{prj.name}/src"
     }
 
@@ -65,14 +66,14 @@ project "Cocos2dx"
         runtime "Debug"
         symbols "on"
         links {
-            "glfw3","opengl32"
+            "glfw3","opengl32","assimp"
         }
 
     filter "configurations:Release"
         runtime "Release"
         optimize "on"
         links {
-            "glfw3","opengl32"
+            "glfw3","opengl32","assimp"
         }
 
     configuration "windows"

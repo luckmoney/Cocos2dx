@@ -31,7 +31,7 @@ namespace Cocos {
 		}
 
 		const uint32_t GetCount() {
-			return m_size;
+			return m_size / sizeof(unsigned int);
 		}
 
 	private:

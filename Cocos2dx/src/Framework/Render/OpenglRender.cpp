@@ -74,16 +74,16 @@ namespace Cocos {
 					switch (type)
 					{
 					case Cocos::VertexType::Float1:
-						glVertexAttribPointer(0, 1, GL_FLOAT, false, 0, nullptr);
+						glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
 						break;
 					case Cocos::VertexType::Float2:
-						glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, nullptr);
+						glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 						break;
 					case Cocos::VertexType::Float3:
-						glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, nullptr);
+						glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 						break;
 					case Cocos::VertexType::Float4:
-						glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, nullptr);
+						glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 						break;
 					default:
 						break;
@@ -230,7 +230,13 @@ namespace Cocos {
 				glDrawElements(context.mode, context.count, context.type, nullptr);
 			}
 		}
+		glBindVertexArray(0);
 	}
+
+	void OpenglRender::setMat4(const std::string &name, const glm::mat4 &mat) const {
+		glUniformMatrix4fv(glGetUniformLocation(m_CurrentShader,name.c_str()),1,GL_FALSE,&mat[0][0]);
+	}
+
 
 	void OpenglRender::SetPipelineState(PipelineState* pipelineState)
 	{
