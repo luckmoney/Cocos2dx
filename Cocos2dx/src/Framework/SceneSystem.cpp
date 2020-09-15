@@ -4,6 +4,9 @@ namespace Cocos {
 	SceneSystem* g_SceneSystem = new SceneSystem();
 
 	int SceneSystem::Initialize() {
+		SkyBox = std::make_shared<SceneObjectSkyBox>();
+		SkyBox->SetName("../Cocos2dx/res/skybox/skybox","jpg");
+
 		m_object = SceneObject::create();
 		return 0;
 	}

@@ -6,10 +6,44 @@
 namespace Cocos {
 	RenderSystem *g_RenderSystem = static_cast<RenderSystem*>(new OpenglRender);
 
+	std::unordered_map<std::string,uint32_t> m_Textures;
+
+	void checkGLerror(std::string description) {
+		GLenum error = glGetError();
+		while (error != GL_NO_ERROR)
+		{
+			switch (error) {
+			case(GL_NO_ERROR):
+				break;
+			case(GL_INVALID_ENUM):
+				std::cout <<"error :: "<< description << ": GL_INVALID_ENUM";
+				break;
+			case(GL_INVALID_VALUE):
+				std::cout << "error :: " << description << ": GL_INVALID_VALUE";
+				break;
+			case(GL_INVALID_OPERATION):
+				std::cout << "error :: " << description << ": GL_INVALID_OPERATION";
+				break;
+			case(GL_INVALID_FRAMEBUFFER_OPERATION):
+				std::cout << "error :: " << description << ": GL_INVALID_FRAMEBUFFER_OPERATION";
+				break;
+			case(GL_OUT_OF_MEMORY):
+				std::cout << "error :: " << description << ": GL_OUT_OF_MEMORY";
+				break;
+			default:
+				std::cout << "error :: " << description << ": Unknown error!";
+			}
+			error = glGetError();
+
+		}
+	}
 
 	void OpenglRender::BeginScene() {
 		InitGeometries();
-		InitSkyBox();
+		if (g_SceneSystem->SkyBox)
+		{
+			initializeSkyBox();
+		}
 	}
 
 	void OpenglRender::EndScene() {
@@ -28,6 +62,51 @@ namespace Cocos {
 	void OpenglRender::EndFrame() {
 
 	}
+
+
+	int32_t upload_texture(std::shared_ptr<SceneObjectTexture> texture) {
+		std::string texture_key = texture->GetName();
+		GLuint texture_id;
+		auto it = m_Textures.find(texture_key);
+		if (it == m_Textures.end()) {
+			glGenTextures(1,&texture_id);
+
+			auto data = texture->GetTextureImage();
+			if (data) {
+				GLenum format;
+				auto nrComponent = texture->GetComponent();
+				if (nrComponent == 1)
+				{
+					format = GL_RED;
+				}
+				else if (nrComponent == 3) {
+					format = GL_RGB;
+				}
+				else if (nrComponent == 4){
+					format = GL_RGBA;
+				}
+				int width = texture->GetWidth();
+				int height = texture->GetHeight();
+				glBindTexture(GL_TEXTURE_2D,texture_id);
+				glTexImage2D(GL_TEXTURE_2D,0,format,width,height,0,format,GL_UNSIGNED_BYTE,data);
+				glGenerateMipmap(GL_TEXTURE_2D);
+
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+				texture->FreeImage();
+			}
+
+			m_Textures[texture_key] = texture_id;
+		}
+		else {
+			texture_id = it->second;
+		}
+
+		return texture_id;
+	};
 
 	void OpenglRender::InitGeometries() {
 
@@ -74,16 +153,16 @@ namespace Cocos {
 					switch (type)
 					{
 					case Cocos::VertexType::Float1:
-						glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
+						glVertexAttribPointer(idx, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
 						break;
 					case Cocos::VertexType::Float2:
-						glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+						glVertexAttribPointer(idx, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 						break;
 					case Cocos::VertexType::Float3:
-						glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+						glVertexAttribPointer(idx, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 						break;
 					case Cocos::VertexType::Float4:
-						glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+						glVertexAttribPointer(idx, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 						break;
 					default:
 						break;
@@ -115,11 +194,32 @@ namespace Cocos {
 						break;
 					}
 
+			
 					DrawBatchContext dbc;
 					dbc.vao = vao;
 					dbc.mode = mode;
 					dbc.count = Index.GetCount();
 					dbc.type = type;
+
+					auto mt_index = Index.GetMaterialIndex();
+					auto material = g_SceneSystem->m_Materials[mt_index];
+					const auto& color = material->GetBaseColor();
+					if (color.ValueMap)
+					{
+						dbc.material.diffuseMap = upload_texture(color.ValueMap);
+					}
+
+					const auto& normal = material->GetNormal();
+					if (normal.ValueMap)
+					{
+						dbc.material.normalMap = upload_texture(normal.ValueMap);
+					}
+					
+					const auto& specular = material->GetSpecularColor();
+					if (specular.ValueMap)
+					{
+						dbc.material.specularMap = upload_texture(specular.ValueMap);
+					}
 
 					for (unsigned int i = 0; i < m_Frames.size(); ++i)
 					{
@@ -134,8 +234,94 @@ namespace Cocos {
 
 	}
 
-	void OpenglRender::InitSkyBox() {
+	void OpenglRender::initializeSkyBox() {
+		uint32_t texture_id;
+		const size_t kMaxMipLevels = 10;
+		glGenTextures(1,&texture_id);
+		GLenum target = GL_TEXTURE_CUBE_MAP;
+		glBindTexture(target,texture_id);
 
+		for (unsigned int i = 0 ; i < 6;i++)
+		{
+			auto &texture = g_SceneSystem->SkyBox->GetTexture(i);
+			auto data = texture.GetTextureImage();
+			if (data)
+			{
+				auto w = texture.GetWidth();
+				auto h = texture.GetHeight();
+				
+				GLenum format;
+				auto nrComponent = texture.GetComponent();
+				if (nrComponent == 1)
+				{
+					format = GL_RED;
+				}
+				else if (nrComponent == 3) {
+					format = GL_RGB;
+				}
+				else if (nrComponent == 4) {
+					format = GL_RGBA;
+				}
+
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+					0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data);
+				texture.FreeImage();
+			}
+		}
+
+		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(target, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+
+		m_Textures["SkyBox"] = texture_id;
+
+		uint32_t skyboxVAO, skyboxVBO[2];
+		glGenVertexArrays(1,&skyboxVAO);
+		glGenBuffers(2,skyboxVBO);
+		glBindVertexArray(skyboxVAO);
+		glBindBuffer(GL_ARRAY_BUFFER,skyboxVBO[0]);
+		glBufferData(GL_ARRAY_BUFFER,sizeof(skyboxVertices),skyboxVertices,GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,nullptr);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,skyboxVBO[1]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(skyboxIndices),skyboxIndices,GL_STATIC_DRAW);
+		glBindVertexArray(0);
+		m_buffers.push_back(skyboxVBO[0]);
+		m_buffers.push_back(skyboxVBO[1]);
+
+		m_SkyBoxDrawBatchContext.material.aoMap = texture_id;
+		m_SkyBoxDrawBatchContext.vao = skyboxVAO;
+		m_SkyBoxDrawBatchContext.mode = GL_TRIANGLES;
+		m_SkyBoxDrawBatchContext.type = GL_UNSIGNED_BYTE;
+		m_SkyBoxDrawBatchContext.count = sizeof(skyboxIndices) / sizeof(skyboxIndices[0]);
+		
+		checkGLerror("skybox");
+	}
+
+	bool OpenglRender::setShaderParameter(const char* paramName, const uint32_t param) {
+		unsigned int location;
+		location = glGetUniformLocation(m_CurrentShader,paramName);
+		if (location ==-1)
+		{
+			return false;
+		}
+		glUniform1i(location,(int)param);
+		return true;
+	}
+
+	bool OpenglRender::setShaderParameter(const char* paramName, const glm::mat4& mat) {
+		unsigned int location;
+		location = glGetUniformLocation(m_CurrentShader, paramName);
+		if (location == -1)
+		{
+			return false;
+		}
+		glUniformMatrix4fv(location,1,GL_FALSE,&mat[0][0]);
+		return true;
 	}
 
 
@@ -210,7 +396,15 @@ namespace Cocos {
 
 	void OpenglRender::DrawSkyBox()
 	{
+		setShaderParameter("skybox", 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, m_SkyBoxDrawBatchContext.material.aoMap);
 
+		glBindVertexArray(m_SkyBoxDrawBatchContext.vao);
+		glDrawElements(m_SkyBoxDrawBatchContext.mode,m_SkyBoxDrawBatchContext.count,m_SkyBoxDrawBatchContext.type,nullptr);
+		glBindVertexArray(0);
+
+		checkGLerror("draw sky box");
 	}
 
 	void OpenglRender::DrawTerrain()
@@ -226,15 +420,58 @@ namespace Cocos {
 		{
 			for (auto &context:frame.m_batchContext)
 			{
+				setShaderParameter("texture_diffuse_map", 0);
+				glActiveTexture(GL_TEXTURE0);
+				if (context.material.diffuseMap > 0)
+				{
+					glBindTexture(GL_TEXTURE_2D,context.material.diffuseMap);
+				}
+				else {
+					glBindTexture(GL_TEXTURE_2D,0);
+				}
+				setShaderParameter("texture_normal_map", 1);
+				glActiveTexture(GL_TEXTURE1);
+				if (context.material.normalMap > 0)
+				{
+					glBindTexture(GL_TEXTURE_2D,context.material.normalMap);
+				}
+				else {
+					glBindTexture(GL_TEXTURE_2D,0);
+				}
+				setShaderParameter("texture_metallic_map",2);
+				glActiveTexture(GL_TEXTURE2);
+				if (context.material.metallicMap > 0)
+				{
+					glBindTexture(GL_TEXTURE_2D,context.material.metallicMap);
+				}
+				else {
+					glBindTexture(GL_TEXTURE_2D,0);
+				}
+				setShaderParameter("texture_specular_map",3);
+				glActiveTexture(GL_TEXTURE3);
+				if (context.material.specularMap > 0 )
+				{
+					glBindTexture(GL_TEXTURE_2D,context.material.specularMap);
+				}
+				else {
+					glBindTexture(GL_TEXTURE_2D,0);
+				}
+				setShaderParameter("texture_height_map", 4);
+				glActiveTexture(GL_TEXTURE4);
+				if (context.material.heightMap > 0)
+				{
+					glBindTexture(GL_TEXTURE_2D,context.material.heightMap);
+				}
+				else{
+					glBindTexture(GL_TEXTURE_2D,0);
+				}
+
+
 				glBindVertexArray(context.vao);
 				glDrawElements(context.mode, context.count, context.type, nullptr);
 			}
 		}
 		glBindVertexArray(0);
-	}
-
-	void OpenglRender::setMat4(const std::string &name, const glm::mat4 &mat) const {
-		glUniformMatrix4fv(glGetUniformLocation(m_CurrentShader,name.c_str()),1,GL_FALSE,&mat[0][0]);
 	}
 
 
@@ -300,6 +537,14 @@ namespace Cocos {
 			break;
 		default:
 			assert(0);
+		}
+
+		if (pipelineState->bDepthWrite)
+		{
+			glDepthMask(GL_TRUE);
+		}
+		else {
+			glDepthMask(GL_FALSE);
 		}
 
 	}

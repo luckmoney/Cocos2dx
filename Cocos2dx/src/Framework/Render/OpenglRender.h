@@ -24,18 +24,22 @@ namespace Cocos {
 
 		void DrawBatch();
 
-		void setMat4(const std::string &name, const glm::mat4 &mat) const;
+		bool setShaderParameter(const char* paramName,const uint32_t param);
+		bool setShaderParameter(const char* paramName,const glm::mat4& mat) ;
 
 	private:
 
 		void InitGeometries();
 
-		void InitSkyBox();
+		void initializeSkyBox();
 
 
 		uint32_t m_CurrentShader;
 
 		std::vector<GLuint> m_buffers;
+
+		DrawBatchContext m_SkyBoxDrawBatchContext;
+		DrawBatchContext m_TerrainDrawBatchContext;
 	};
 
 }

@@ -47,18 +47,23 @@ class PipelineState;
 #include "Framework/Common.h"
 #include "Framework/FrameStructure.h"
 
-
 #include "Framework/Base/SceneObject.h"
+#include "Framework/Base/SceneObjectSkyBox.h"
 #include "Framework/Base/SceneVertexArrary.h"
 #include "Framework/Base/SceneIndexArrary.h"
+#include "Framework/Base/SceneObjectLight.h"
+#include "Framework/Base/SceneObjectTexture.h"
 #include "Framework/Base/SceneMesh.h"
+#include "Framework/Base/ParameterValueMap.h"
+#include "Framework/Base/SceneObjectMaterial.h"
+
 
 
 #include "Framework/Render/Pass.h"
 #include "Framework/Render/SubPass.h"
 #include "Framework/Render/ForwardPass.h"
 #include "Framework/Render/GeometrySubPass.h"
-#include "Framework/Render/Material.h"
+
 #include "Framework/Render/Shader.h"
 #include "Framework/Render/ShadowPass.h"
 #include "Framework/Render/SkyboxSubPass.h"

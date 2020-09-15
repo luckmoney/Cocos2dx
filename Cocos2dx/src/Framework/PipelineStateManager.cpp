@@ -14,8 +14,9 @@ namespace Cocos {
 		geoPipeline.pipelineStateName = "Basic";
 		geoPipeline.vertexShaderName = "../Cocos2dx/shader/basic.vs";
 		geoPipeline.pixelShaderName =  "../Cocos2dx/shader/basic.fs";
-		geoPipeline.cullFaceMode = CULL_FACE_MODE::NONE;
-		geoPipeline.depthTestMode = DEPTH_TEST_MODE::NONE;
+		geoPipeline.cullFaceMode = CULL_FACE_MODE::BACK;
+		geoPipeline.depthTestMode = DEPTH_TEST_MODE::LESS_EQUAL;
+		geoPipeline.bDepthWrite = true;
 		
 		registerPipelineState(geoPipeline);
 
@@ -24,12 +25,10 @@ namespace Cocos {
 		skyboxPipeline.pipelineStateName = "SkyBox";
 		skyboxPipeline.vertexShaderName = "../Cocos2dx/shader/skybox.vs";
 		skyboxPipeline.pixelShaderName =  "../Cocos2dx/shader/skybox.fs";
-		skyboxPipeline.cullFaceMode = CULL_FACE_MODE::NONE;
-		skyboxPipeline.depthTestMode = DEPTH_TEST_MODE::ALWAYS;
+		skyboxPipeline.cullFaceMode = CULL_FACE_MODE::BACK;
+		skyboxPipeline.depthTestMode = DEPTH_TEST_MODE::LESS_EQUAL;
+		skyboxPipeline.bDepthWrite = true;
 		registerPipelineState(skyboxPipeline);
-
-
-
 
 		return 0;
 	}

@@ -15,11 +15,14 @@ namespace Cocos {
 
 		void AddObject(SceneObject&);
 
+		std::unordered_map<std::string, std::shared_ptr<SceneObjectMaterial>> m_Materials;
 	private:
 		SceneObject *m_object;
 		
 		std::vector<SceneObject> m_geoVec;
 
+	public:
+		std::shared_ptr<SceneObjectSkyBox> SkyBox;
 	};
 
 	extern SceneSystem* g_SceneSystem;

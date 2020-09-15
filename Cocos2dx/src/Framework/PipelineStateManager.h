@@ -18,6 +18,7 @@ namespace Cocos {
 
 		std::string vertexShaderName;
 		std::string pixelShaderName;
+		bool bDepthWrite{ true };
 
 		DEPTH_TEST_MODE depthTestMode{DEPTH_TEST_MODE::ALWAYS};
 		CULL_FACE_MODE cullFaceMode{ CULL_FACE_MODE::BACK };

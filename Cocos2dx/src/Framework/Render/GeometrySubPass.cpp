@@ -14,7 +14,7 @@ namespace Cocos {
 		view = glm::scale(view, glm::vec3(0.1,0.1,0.1));
 		view = glm::translate(view, glm::vec3(0, -6.0, 0));
 
-		g_RenderSystem->setMat4("view", view);
+		g_RenderSystem->setShaderParameter("view", view);
 
 		g_RenderSystem->DrawBatch();
 	}

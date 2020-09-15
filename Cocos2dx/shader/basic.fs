@@ -1,12 +1,17 @@
 #version 330 core
+
 out vec4 FragColor;
 
-in vec4 pos;
 in vec3 normal;
+
+in vec2 TexCoords;
+
+uniform sampler2D texture_diffuse_map;
+uniform sampler2D texture_normal_map;
+uniform sampler2D texture_metallic_map;
 
 
 void main()
 {
-    vec3 color = pos.xyz;// * max(dot(pos.xyz,normalize(normal)),0.0); 
-    FragColor =  vec4(color,1.0);
+    FragColor = texture(texture_diffuse_map,TexCoords);
 }

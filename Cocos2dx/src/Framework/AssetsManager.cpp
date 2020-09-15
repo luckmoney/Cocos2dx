@@ -12,6 +12,7 @@
 namespace Cocos {
 	AssetsManager *g_AssetsManager = new AssetsManager();
 
+	std::string g_directory("");
 
 	std::string AssetsManager::readTextFromFile(const char* path) {
 		std::string code;
@@ -49,7 +50,7 @@ namespace Cocos {
 			std::cout << "error ::assimp::" << importer.GetErrorString() << std::endl;
 			return false;
 		}
-		std::string directory = path_str.substr(0, path_str.find_last_of('/'));
+		g_directory = path_str.substr(0, path_str.find_last_of('/'));
 		SceneObject obj;
 		processNode(scene->mRootNode, scene,obj);
 		g_SceneSystem->AddObject(obj);
@@ -104,6 +105,19 @@ namespace Cocos {
 		SceneVertexArrary norArr(normal_data,vertex_buffer_size*sizeof(float),VertexType::Float3);
 		sc_mesh.AddVertexArrary(std::move(verArr));
 
+		auto tc_size = vertex_size * 2;
+		float* texCoord_data = new float[tc_size];
+		float* texCoord_ptr = texCoord_data;
+		memset(texCoord_data, 0, tc_size);
+		for (unsigned int i = 0 ; i < vertex_size;i++)
+		{
+			*texCoord_ptr = mesh->mTextureCoords[0][i].x;
+			*(texCoord_ptr + 1) = mesh->mTextureCoords[0][i].y;
+			texCoord_ptr += 2;
+		}
+		SceneVertexArrary txcArr(texCoord_data, tc_size * sizeof(float), VertexType::Float2);
+		sc_mesh.AddVertexArrary(std::move(txcArr));
+
 
 		unsigned int face_size = mesh->mNumFaces;
 		unsigned int index_size = face_size * 3;
@@ -114,14 +128,60 @@ namespace Cocos {
 
 		for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 		{
-
 			aiFace face = mesh->mFaces[i];
-
 			memcpy(index_ptr, face.mIndices, 3 * sizeof(unsigned int));
 			index_ptr += 3;
 		}
-		SceneIndexArrary indexArr(index_data, index_size * sizeof(unsigned int), IndexType::kIndexDataTypeInt32);
+
+		auto material_index = mesh->mMaterialIndex;
+		std::string index_str = std::to_string(material_index);
+
+		SceneIndexArrary indexArr(index_data, index_size * sizeof(unsigned int), IndexType::kIndexDataTypeInt32, index_str.c_str());
 		sc_mesh.AddIndexArrary(std::move(indexArr));
+
+
+		auto sc_Material = std::make_shared<SceneObjectMaterial>(index_str);
+
+		aiMaterial* material = scene->mMaterials[material_index];
+		aiString str;
+		aiTextureType type = aiTextureType_DIFFUSE;
+		for (unsigned int i = 0 ; i < material->GetTextureCount(type);i++)
+		{
+			aiString str;
+			material->GetTexture(type, i, &str);
+			sc_Material->SetName(index_str);
+			sc_Material->SetTexture("diffuse", g_directory + '/' + str.C_Str());
+		}
+		
+		type = aiTextureType_SPECULAR;
+		for (unsigned int i = 0; i < material->GetTextureCount(type); i++)
+		{
+			aiString str;
+			material->GetTexture(type, i, &str);
+			sc_Material->SetName(index_str);
+			sc_Material->SetTexture("specular", g_directory + '/' + str.C_Str());
+		}
+
+		type = aiTextureType_HEIGHT;
+		for (unsigned int i = 0; i < material->GetTextureCount(type); i++)
+		{
+			aiString str;
+			material->GetTexture(type, i, &str);
+			sc_Material->SetName(index_str);
+			sc_Material->SetTexture("normal", g_directory + '/' + str.C_Str());
+		}
+
+		type = aiTextureType_AMBIENT;
+		for (unsigned int i = 0; i < material->GetTextureCount(type); i++)
+		{
+			aiString str;
+			material->GetTexture(type, i, &str);
+			sc_Material->SetName(index_str);
+			sc_Material->SetTexture("height", g_directory + '/' + str.C_Str());
+		}
+
+		g_SceneSystem->m_Materials.insert(std::make_pair(index_str,sc_Material));
+
 
 		return std::move(sc_mesh);
 	}

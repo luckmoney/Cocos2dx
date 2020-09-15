@@ -48,6 +48,7 @@ project "Cocos2dx"
         "%{prj.name}/Indepence/GLAD/include",
         "%{prj.name}/Indepence/GLFW/include",
         "%{prj.name}/Indepence/GLM",
+        "%{prj.name}/Indepence/Image",
         "%{prj.name}/Indepence/Assimp/include",
         "%{prj.name}/src"
     }
