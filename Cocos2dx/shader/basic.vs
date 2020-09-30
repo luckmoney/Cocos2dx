@@ -6,6 +6,19 @@ layout(location = 2) in vec2 aTexCoords;
 uniform mat4 view;
 
 
+struct Light{
+    int type;
+    float intensity;
+    vec4 lightPos;
+    vec4 lightColor;
+}; 
+
+
+const int MaxLights = 10;
+layout (std140) uniform  LightInfo{
+	Light lights[MaxLights];
+};
+
 out vec3 normal;
 out vec2 TexCoords;
 

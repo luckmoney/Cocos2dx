@@ -11,6 +11,8 @@ uniform sampler2D texture_normal_map;
 uniform sampler2D texture_metallic_map;
 
 
+
+
 void main()
 {
     FragColor = texture(texture_diffuse_map,TexCoords);

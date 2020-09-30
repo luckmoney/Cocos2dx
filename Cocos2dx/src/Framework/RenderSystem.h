@@ -13,20 +13,25 @@ namespace Cocos {
 		virtual void BeginScene();
 		void EndScene(){}
 
-		virtual void BeginFrame() =0;
-		void EndFrame(){}
+		virtual void BeginFrame(const Frame&) =0;
+		void EndFrame(){
+			m_nFrameIndex = (m_nFrameIndex + 1) % 2;
+		}
 
-		virtual void SetPipelineState(PipelineState*) {};
-		virtual void DrawBatch() {};
+		void UpdateConstants();
+		void CalculateLights();
+
+
+		virtual void SetPipelineState(PipelineState*,const Frame&) {};
+		virtual void DrawBatch(Frame&) {};
 		virtual void DrawSkyBox() {};
-
-
 		virtual bool setShaderParameter(const char* name, const glm::mat4 &mat)= 0;
+
 
 	protected:
 		std::vector<Pass*> m_passes;
 		std::vector<Frame> m_Frames;
-		
+		uint32_t m_nFrameIndex{ 0 };
 		SceneSystem *m_crtScene;
 
 		constexpr static float skyboxVertices[]{

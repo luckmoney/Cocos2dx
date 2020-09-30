@@ -3,13 +3,16 @@
 #include "FrameWork/RenderSystem.h"
 
 namespace Cocos {
+
 	class OpenglRender:public RenderSystem {
 	public:
 		void BeginScene();
 		void EndScene();
 
-		void BeginFrame();
+		void BeginFrame(const Frame&);
 		void EndFrame();
+
+		void SetLightInfo(const LightInfo&);
 
 		void DrawPoint();
 		void DrawLine();
@@ -20,9 +23,9 @@ namespace Cocos {
 
 		void DrawTerrain();
 
-		void SetPipelineState(PipelineState*);
+		void SetPipelineState(PipelineState*,const Frame&);
 
-		void DrawBatch();
+		void DrawBatch(Frame&);
 
 		bool setShaderParameter(const char* paramName,const uint32_t param);
 		bool setShaderParameter(const char* paramName,const glm::mat4& mat) ;
@@ -40,6 +43,8 @@ namespace Cocos {
 
 		DrawBatchContext m_SkyBoxDrawBatchContext;
 		DrawBatchContext m_TerrainDrawBatchContext;
+
+		uint32_t m_uboLightInfo[2] = { 0 };
 	};
 
 }

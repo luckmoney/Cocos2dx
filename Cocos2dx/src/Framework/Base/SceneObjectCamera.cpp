@@ -1,0 +1,1 @@
+#include "Framework/Base/SceneObjectCamera.h"

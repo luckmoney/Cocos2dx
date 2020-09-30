@@ -52,16 +52,38 @@ namespace Cocos {
 			glDeleteBuffers(1, &buffer_id);
 		}
 		m_buffers.clear();
+
+		for (int i = 0 ; i < m_Frames.size();i++)
+		{
+			if (m_uboLightInfo[i])
+			{
+				glDeleteBuffers(1,&m_uboLightInfo[i]);
+				m_uboLightInfo[i] = 0;
+			}
+		}
 	}
 
-	void OpenglRender::BeginFrame() {
+	void OpenglRender::BeginFrame(const Frame &frame) {
 		glClearColor(0.3, 0.3, 0.3, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		SetLightInfo(frame.lightInfo);
 	}
 
 	void OpenglRender::EndFrame() {
 
 	}
+
+
+	void OpenglRender::SetLightInfo(const LightInfo& lightInfo) {
+		if (!m_uboLightInfo[m_nFrameIndex])
+		{
+			glGenBuffers(1,&m_uboLightInfo[m_nFrameIndex]);
+		}
+		glBindBuffer(GL_UNIFORM_BUFFER,m_uboLightInfo[m_nFrameIndex]);
+		glBufferData(GL_UNIFORM_BUFFER,kSizeLightInfo,&lightInfo,GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_UNIFORM_BUFFER,0);
+	}
+
 
 
 	int32_t upload_texture(std::shared_ptr<SceneObjectTexture> texture) {
@@ -414,68 +436,65 @@ namespace Cocos {
 
 
 
-	void OpenglRender::DrawBatch()
+	void OpenglRender::DrawBatch(Frame& frame)
 	{
-		for (auto &frame:m_Frames)
+		for (auto &context:frame.m_batchContext)
 		{
-			for (auto &context:frame.m_batchContext)
+			setShaderParameter("texture_diffuse_map", 0);
+			glActiveTexture(GL_TEXTURE0);
+			if (context.material.diffuseMap > 0)
 			{
-				setShaderParameter("texture_diffuse_map", 0);
-				glActiveTexture(GL_TEXTURE0);
-				if (context.material.diffuseMap > 0)
-				{
-					glBindTexture(GL_TEXTURE_2D,context.material.diffuseMap);
-				}
-				else {
-					glBindTexture(GL_TEXTURE_2D,0);
-				}
-				setShaderParameter("texture_normal_map", 1);
-				glActiveTexture(GL_TEXTURE1);
-				if (context.material.normalMap > 0)
-				{
-					glBindTexture(GL_TEXTURE_2D,context.material.normalMap);
-				}
-				else {
-					glBindTexture(GL_TEXTURE_2D,0);
-				}
-				setShaderParameter("texture_metallic_map",2);
-				glActiveTexture(GL_TEXTURE2);
-				if (context.material.metallicMap > 0)
-				{
-					glBindTexture(GL_TEXTURE_2D,context.material.metallicMap);
-				}
-				else {
-					glBindTexture(GL_TEXTURE_2D,0);
-				}
-				setShaderParameter("texture_specular_map",3);
-				glActiveTexture(GL_TEXTURE3);
-				if (context.material.specularMap > 0 )
-				{
-					glBindTexture(GL_TEXTURE_2D,context.material.specularMap);
-				}
-				else {
-					glBindTexture(GL_TEXTURE_2D,0);
-				}
-				setShaderParameter("texture_height_map", 4);
-				glActiveTexture(GL_TEXTURE4);
-				if (context.material.heightMap > 0)
-				{
-					glBindTexture(GL_TEXTURE_2D,context.material.heightMap);
-				}
-				else{
-					glBindTexture(GL_TEXTURE_2D,0);
-				}
-
-
-				glBindVertexArray(context.vao);
-				glDrawElements(context.mode, context.count, context.type, nullptr);
+				glBindTexture(GL_TEXTURE_2D,context.material.diffuseMap);
 			}
+			else {
+				glBindTexture(GL_TEXTURE_2D,0);
+			}
+			setShaderParameter("texture_normal_map", 1);
+			glActiveTexture(GL_TEXTURE1);
+			if (context.material.normalMap > 0)
+			{
+				glBindTexture(GL_TEXTURE_2D,context.material.normalMap);
+			}
+			else {
+				glBindTexture(GL_TEXTURE_2D,0);
+			}
+			setShaderParameter("texture_metallic_map",2);
+			glActiveTexture(GL_TEXTURE2);
+			if (context.material.metallicMap > 0)
+			{
+				glBindTexture(GL_TEXTURE_2D,context.material.metallicMap);
+			}
+			else {
+				glBindTexture(GL_TEXTURE_2D,0);
+			}
+			setShaderParameter("texture_specular_map",3);
+			glActiveTexture(GL_TEXTURE3);
+			if (context.material.specularMap > 0 )
+			{
+				glBindTexture(GL_TEXTURE_2D,context.material.specularMap);
+			}
+			else {
+				glBindTexture(GL_TEXTURE_2D,0);
+			}
+			setShaderParameter("texture_height_map", 4);
+			glActiveTexture(GL_TEXTURE4);
+			if (context.material.heightMap > 0)
+			{
+				glBindTexture(GL_TEXTURE_2D,context.material.heightMap);
+			}
+			else{
+				glBindTexture(GL_TEXTURE_2D,0);
+			}
+
+
+			glBindVertexArray(context.vao);
+			glDrawElements(context.mode, context.count, context.type, nullptr);
 		}
 		glBindVertexArray(0);
 	}
 
 
-	void OpenglRender::SetPipelineState(PipelineState* pipelineState)
+	void OpenglRender::SetPipelineState(PipelineState* pipelineState,const Frame& frame)
 	{
 		m_CurrentShader = pipelineState->shaderProgram;
 
@@ -547,6 +566,21 @@ namespace Cocos {
 			glDepthMask(GL_FALSE);
 		}
 
+		uint32_t blockIndex = glGetUniformBlockIndex(m_CurrentShader, "LightInfo");
+		if (blockIndex != GL_INVALID_INDEX)
+		{
+			int32_t blockSize;
+			glGetActiveUniformBlockiv(m_CurrentShader,blockIndex,GL_UNIFORM_BLOCK_DATA_SIZE,&blockSize);
+
+			assert(blockSize >= sizeof(LightInfo));
+
+			glUniformBlockBinding(m_CurrentShader,blockIndex,12);
+			glBindBufferBase(GL_UNIFORM_BUFFER,12,m_uboLightInfo[frame.frameIndex]);
+
+		}
+
+
 	}
+
 
 }

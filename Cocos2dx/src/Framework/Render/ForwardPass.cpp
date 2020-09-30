@@ -27,12 +27,12 @@ namespace Cocos {
 	}
 
 
-	void ForwardPass::Draw() {
+	void ForwardPass::Draw(Frame& frame) {
 
 		auto iter = m_subpasses.begin();
 		while (iter != m_subpasses.end())
 		{
-			(*iter)->Draw();
+			(*iter)->Draw(frame);
 			++iter;
 		}
 

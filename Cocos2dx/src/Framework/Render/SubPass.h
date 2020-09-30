@@ -1,8 +1,9 @@
 #pragma  once
 
+#include "Framework/FrameStructure.h"
 namespace Cocos {
 	class SubPass {
 		public:
-			virtual	void Draw() = 0;
+			virtual	void Draw(Frame&) = 0;
 	};
 }

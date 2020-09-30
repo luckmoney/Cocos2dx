@@ -52,6 +52,7 @@ class PipelineState;
 #include "Framework/Base/SceneVertexArrary.h"
 #include "Framework/Base/SceneIndexArrary.h"
 #include "Framework/Base/SceneObjectLight.h"
+#include "Framework/Base/SceneObjectCamera.h"
 #include "Framework/Base/SceneObjectTexture.h"
 #include "Framework/Base/SceneMesh.h"
 #include "Framework/Base/ParameterValueMap.h"

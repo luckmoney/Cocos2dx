@@ -38,9 +38,37 @@ namespace Cocos {
 		struct Light lights[MAX_LIGHTS];
 	};
 
+
+	struct PerFrameConstants {
+		glm::mat4 viewMatrix;
+		glm::mat4 projectionMatrix;
+		Vector4f camPos;
+		int32_t numLights;
+	};
+
+	struct frame_textures {
+		int32_t shadowMap = -1;
+		int32_t shadowMapCount = 0;
+
+		int32_t globalShadowMap = -1;
+		int32_t globalShadowMapCount = 0;
+
+		int32_t cubeShadowMap = -1;
+		int32_t cubeShadowMapCount = 0;
+	};
+
+
+	struct DrawFrameContext:frame_textures,PerFrameConstants{};
+
 	struct Frame:global_textures {
+		int32_t frameIndex{ 0 };
+		DrawFrameContext frameContext;
 		std::vector<DrawBatchContext> m_batchContext;
 		LightInfo lightInfo;
 	};
+
+
+	const size_t kSizeLightInfo = ALIGN(
+		sizeof(LightInfo), 256);  // CB size is required to be 256-byte aligned.
 }
 

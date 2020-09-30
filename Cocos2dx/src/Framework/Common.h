@@ -5,7 +5,7 @@
 #define  WINDOWSWIDTH 800
 #define  WINDOWSHEIGHT 600
 
-#define MAX_LIGHTS 100
+#define MAX_LIGHTS 10
 
 typedef glm::vec3 Vec3;
 typedef glm::vec4 Vector4f;
@@ -22,3 +22,5 @@ struct Light {
 	Vector4f lightPosition;
 	Vector4f lightColor;
 };
+
+#define ALIGN(x, a) (((x) + ((a)-1)) & ~((a)-1))

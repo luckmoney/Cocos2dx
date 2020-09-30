@@ -2,7 +2,7 @@
 
 
 namespace Cocos {
-	void TerrainSubPass::Draw() {
+	void TerrainSubPass::Draw(Frame& frame) {
 
 	}
 }

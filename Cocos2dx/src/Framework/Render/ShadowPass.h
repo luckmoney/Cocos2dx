@@ -2,8 +2,9 @@
 
 #include "Pass.h"
 namespace Cocos {
+	class Frame;
 	class ShadowPass: public Pass {
 	public:
-		virtual void Draw();
+		virtual void Draw(Frame&);
 	};
 }

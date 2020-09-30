@@ -2,7 +2,7 @@
 
 
 namespace Cocos {
-	void ShadowPass::Draw() {
+	void ShadowPass::Draw(Frame& frame) {
 
 	}
 }
