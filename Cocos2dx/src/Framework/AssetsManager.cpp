@@ -35,7 +35,7 @@ namespace Cocos {
 		return  std::move(code);
 	}
 
-	void processNode(aiNode* node, const aiScene* scene, SceneObject&);
+	void processNode(aiNode* node, const aiScene* scene, std::shared_ptr<SceneObject>);
 	SceneMesh processMesh(aiMesh* mesh, const aiScene* scene);
 
 	bool AssetsManager::loadModel(const char* path) {
@@ -51,19 +51,19 @@ namespace Cocos {
 			return false;
 		}
 		g_directory = path_str.substr(0, path_str.find_last_of('/'));
-		SceneObject obj;
+		std::shared_ptr<SceneObject> obj = std::make_shared<SceneObject>();
 		processNode(scene->mRootNode, scene,obj);
 		g_SceneSystem->AddObject(obj);
 		return true;
 	}
 
-	void processNode(aiNode* node, const aiScene* scene, SceneObject&obj) {
+	void processNode(aiNode* node, const aiScene* scene, std::shared_ptr<SceneObject> obj) {
 
 		for (unsigned int i = 0; i < node->mNumMeshes; i++)
 		{
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 			SceneMesh smesh = processMesh(mesh, scene);
-			obj.AddMesh(std::move(smesh));
+			obj->AddMesh(std::move(smesh));
 		}
 		for (unsigned int i = 0; i < node->mNumChildren; i++)
 		{

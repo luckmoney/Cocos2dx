@@ -1,35 +1,49 @@
 #pragma once
 
-#include "Framework/Cocos2dx.h"
+#include <string>
+#include <vector>
+
 namespace Cocos {
 
+	class SceneNode;
 	class SceneMesh;
 
+	enum class SceneObjectType {
+		Geometry, Light, Camera
+	};
+
+
 	class SceneObject {
-		friend std::ostream& operator<<(std::ostream&, SceneObject*);
+
 
 	public:
-		static SceneObject* create();
+		static SceneObject* create(SceneObjectType type = SceneObjectType::Geometry);
 
-		void addChild(SceneObject*);
+		SceneObject(SceneObjectType type= SceneObjectType::Geometry):m_Type(type) {
 
-		void update();
+		}
 
-		void setPosition(Vec3);
+		SceneObjectType GetType() { return m_Type; }
+
+		void SetKey(const std::string key) { m_key = key; }
+
+		void AttendNode(SceneNode* node) {
+			m_Node = node;
+		}
 
 		void AddMesh(SceneMesh);
+
 
 		std::vector<SceneMesh>& GetMeshArrary() {
 			return m_MeshVec;
 		}
-
-		Vec3 getPosition();
-
 	private:
-		std::vector<SceneObject*> object_vec;
-		Vec3 m_position;
+		SceneNode* m_Node;
+		std::string m_key;
 
+		SceneObjectType m_Type;
 		std::vector<SceneMesh> m_MeshVec;
+
 	};
 }
 

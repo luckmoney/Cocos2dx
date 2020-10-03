@@ -19,8 +19,6 @@ namespace Cocos {
 		ForwardPass *forward = new ForwardPass();
 		forward->Init();
 		m_passes.push_back(forward);
-
-
 		return 0;
 	}
 
@@ -53,8 +51,6 @@ namespace Cocos {
 		auto& light_info = m_Frames[m_nFrameIndex].lightInfo;
 
 		frameContext.numLights = 0;
-
-
 	}
 
 

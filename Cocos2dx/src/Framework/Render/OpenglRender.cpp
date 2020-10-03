@@ -133,10 +133,10 @@ namespace Cocos {
 	void OpenglRender::InitGeometries() {
 
 
-		auto geoVec = g_SceneSystem->GetGeoArrary();
+		auto geoVec = g_SceneSystem->GetGeometries();
 		for (auto &object: geoVec)
 		{
-			auto object_mesh_vec = object.GetMeshArrary();
+			auto object_mesh_vec = object.second->GetMeshArrary();
 			for (auto &mesh : object_mesh_vec)
 			{
 				GLuint vao;
