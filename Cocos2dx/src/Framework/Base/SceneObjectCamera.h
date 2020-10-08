@@ -11,13 +11,27 @@ namespace Cocos {
 		RIGHT
 	};
 
+	const float SENSITIVITY = 0.1f;
+
 	class SceneObjectCamera:public SceneObject {
+	public:
+		SceneObjectCamera();
+		Mat4 GetView();
+		void ProcessMouseMovement(float &,float &);
+		void updateCameraVectors();
+
 	protected:
 		float m_fAspect;
 		float m_fNearClipDistance;
 		float m_fFarClipDistance;
 
+	private:
+		float MouseSensitivity;
+		//Euler Angles
+		float Yaw;
+		float Pitch;
 
+		Vec3 Front;
 	};
 
 	class SceneObjectOrthogonalCamera : public SceneObjectCamera

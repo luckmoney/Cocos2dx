@@ -33,7 +33,24 @@ void main()
 {
     vec4 Color = texture(texture_diffuse_map,TexCoords);  
     for(int i = 0; i < 2; i++){
-        Color = Color * lights[i].lightColor;
+        vec4 LightColor = lights[i].lightColor;
+        vec4 lightPos = lights[i].lightPos;
+
+        float ambient = 0.5;
+        vec4 ambientColor = ambient * LightColor;
+
+        vec3 norm = normalize(normal);
+        vec3 lightDir = normalize(lightPos.xyz - FragPos.xyz);
+        float diff = max(dot(norm,lightDir),0.0);
+        vec4 diffuseColor = diff *LightColor;
+
+        float specular = 0.5;
+        vec3 viewDir = normalize(OcamPos.xyz - FragPos.xyz);
+        vec3 reflectDir = reflect(-lightDir,norm);
+        float spec = pow(max(dot(OcamPos.xyz,reflectDir),0.0),32);
+        vec4 specularColor = specular *spec *LightColor;
+
+        Color = Color * (ambientColor + diffuseColor + specularColor);
     }
     FragColor = Color; 
 }

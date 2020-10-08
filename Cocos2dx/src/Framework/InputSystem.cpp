@@ -4,6 +4,7 @@ namespace Cocos {
 	InputSystem* g_InputSystem = new InputSystem();
 
 	int	InputSystem::Initialize() {
+		firstMouse = true;
 		return 0;
 	}
 
@@ -37,5 +38,24 @@ namespace Cocos {
 		default:
 			break;
 		}
+		std::cout << node << std::endl;
+	}
+
+
+	void InputSystem::ProcessMouseMovement(double& x, double& y)
+	{
+		auto node = g_SceneSystem->GetFirstCameraNode();
+		auto camera = g_SceneSystem->GetCamera(node->GetSceneObjectRes());
+		if (firstMouse)
+		{
+			lastX = x;
+			lastY = y;
+			firstMouse = false;
+		}
+		float xoffset = x - lastX;
+		float yoffset = lastY - y;
+		lastX = x;
+		lastY = y;
+		camera->ProcessMouseMovement(xoffset,yoffset);
 	}
 }

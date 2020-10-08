@@ -11,7 +11,7 @@ namespace Cocos {
 	}
 
 	void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
-	
+		g_InputSystem->ProcessMouseMovement(xpos,ypos);
 	}
 
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {

@@ -11,6 +11,12 @@ namespace Cocos {
 		void Finalize();
 
 		void ProcessKeyBoard(InputKeyEnum);
+		void ProcessMouseMovement(double&, double&);
+
+	private:
+		bool firstMouse;
+		float lastX = WINDOWSWIDTH * 0.5f;
+		float lastY = WINDOWSHEIGHT * 0.5f;
 	};
 
 	extern InputSystem* g_InputSystem;
