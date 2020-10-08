@@ -43,7 +43,18 @@ namespace Cocos {
 	}
 
 	void RenderSystem::UpdateConstants() {
+		CalculateCameraMatrix();
 		CalculateLights();
+	}
+
+	void RenderSystem::CalculateCameraMatrix() {
+		auto pCameraNode = g_SceneSystem->GetFirstCameraNode();
+		DrawFrameContext& frameContext = m_Frames[m_nFrameIndex].frameContext;
+		if (pCameraNode)
+		{
+			frameContext.camPos = Vec4(pCameraNode->getPosition(),1.0);
+		}
+
 	}
 
 	void RenderSystem::CalculateLights() {
@@ -51,6 +62,27 @@ namespace Cocos {
 		auto& light_info = m_Frames[m_nFrameIndex].lightInfo;
 
 		frameContext.numLights = 0;
+
+		auto light_map = g_SceneSystem->GetLightNodes();
+
+		for (const auto mLight : light_map)
+		{
+			Light& light = light_info.lights[frameContext.numLights];
+			auto pLightNode = mLight;
+
+			light.lightPosition = Vector4f(pLightNode->getPosition(), 1.0f);
+			light.lightDirection = Vector4f(0, 0, 0, 0.0f);
+			auto key = pLightNode->GetSceneObjectRes();
+			auto pLight = g_SceneSystem->GetLight(key);
+			light.lightColor = pLight->GetColor().Value;
+			light.lightIntensity = pLight->GetIntensity();
+			light.lightCastShadow = pLight->GetIfCastShadow();
+			const AttenCurve& atten_curve = pLight->GetDistanceAttenuations();
+			light.lightDistAttenCurveType = atten_curve.type;
+			memcpy(light.lightDistAttenCurveParams, &atten_curve.u, sizeof(atten_curve.u));
+
+			++frameContext.numLights;
+		}
 	}
 
 

@@ -23,18 +23,25 @@ namespace Cocos {
 			return m_position;
 		}
 
-		void AddLight(std::string& lightIdx);
+		void AddSceneObjectRef(std::string& key) {
+			m_keySceneObject = key;
+		}
 
-		void AddCamera(std::string& cameraIdx);
-
-		void AddGeometry(std::string& geometryIdx);
+		const std::string& GetSceneObjectRes() {
+			return m_keySceneObject;
+		}
 
 	private:
-
 		Vec3 m_position;
-		std::vector<SceneNode*> m_NodeVec;
-		std::vector<std::string> m_GeometryVec;
-		std::vector<std::string> m_lightVec;
-		std::vector<std::string> m_CameraVec;
+		std::string m_keySceneObject;
+	};
+
+
+	class SceneLightNode :public SceneNode {
+
+	};
+
+	class SceneCameraNode :public SceneNode {
+
 	};
 } 

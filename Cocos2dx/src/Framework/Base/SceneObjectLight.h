@@ -5,10 +5,6 @@
 
 namespace Cocos {
 
-	enum class AttenCurveType {
-		kNone, kLinear, kSmooth, kInverse, kInverseSquare
-	};
-
 	struct AttenCurve {
 		AttenCurveType type{ AttenCurveType::kNone };
 		union AttenCurveParams {
@@ -48,11 +44,14 @@ namespace Cocos {
 		std::string m_strTexture;
 
 	public:
+		SceneObjectLight():SceneObject(SceneObjectType::Light) {
+		}
+
 		void SetIfCanShadow(bool shadow) {
 			m_bCastShadows = shadow;
 		}
 
-		void SetColor(std::string& attrib, Vector4f& color) {
+		void SetColor(std::string attrib, Vector4f& color) {
 			if (attrib == "light")
 			{
 				m_LightColor = Color(color);

@@ -70,5 +70,7 @@ namespace Cocos {
 
 	const size_t kSizeLightInfo = ALIGN(
 		sizeof(LightInfo), 256);  // CB size is required to be 256-byte aligned.
+
+	const size_t kSizePerFrameConstantBuffer = ALIGN(sizeof(PerFrameConstants), 256);
 }
 

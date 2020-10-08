@@ -23,6 +23,23 @@ namespace Cocos {
 	{
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, true);
+
+		if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
+		{
+			g_InputSystem->ProcessKeyBoard(InputKeyEnum::FORWARD);
+		}
+		if (glfwGetKey(window,GLFW_KEY_S) == GLFW_PRESS)
+		{
+			g_InputSystem->ProcessKeyBoard(InputKeyEnum::BACKWARD);
+		}
+		if (glfwGetKey(window,GLFW_KEY_A) == GLFW_PRESS)
+		{
+			g_InputSystem->ProcessKeyBoard(InputKeyEnum::LEFT);
+		}
+		if (glfwGetKey(window,GLFW_KEY_D) == GLFW_PRESS )
+		{
+			g_InputSystem->ProcessKeyBoard(InputKeyEnum::RIGHT);
+		}
 	}
 
 
@@ -68,7 +85,7 @@ namespace Cocos {
 	}
 
 	void Windows::Tick() {
-
+		processInput(m_window);
 	}
 
 	void Windows::Finalize() {

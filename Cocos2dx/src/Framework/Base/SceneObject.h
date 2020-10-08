@@ -27,9 +27,11 @@ namespace Cocos {
 
 		void SetKey(const std::string key) { m_key = key; }
 
-		void AttendNode(SceneNode* node) {
+		void AttendNode(std::shared_ptr<SceneNode> node) {
 			m_Node = node;
 		}
+
+		std::shared_ptr<SceneNode> GetNode()const { return m_Node; }
 
 		void AddMesh(SceneMesh);
 
@@ -38,7 +40,7 @@ namespace Cocos {
 			return m_MeshVec;
 		}
 	private:
-		SceneNode* m_Node;
+		std::shared_ptr<SceneNode> m_Node;
 		std::string m_key;
 
 		SceneObjectType m_Type;

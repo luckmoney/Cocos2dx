@@ -66,11 +66,23 @@ namespace Cocos {
 	void OpenglRender::BeginFrame(const Frame &frame) {
 		glClearColor(0.3, 0.3, 0.3, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		SetPerFrameConstants(frame.frameContext);
 		SetLightInfo(frame.lightInfo);
 	}
 
 	void OpenglRender::EndFrame() {
 
+	}
+
+	void OpenglRender::SetPerFrameConstants(const DrawFrameContext& context) {
+		if (!m_uboDrawFrameConstant[m_nFrameIndex])
+		{
+			glGenBuffers(1, &m_uboDrawFrameConstant[m_nFrameIndex]);
+		}
+		glBindBuffer(GL_UNIFORM_BUFFER, m_uboDrawFrameConstant[m_nFrameIndex]);
+		auto constants = static_cast<PerFrameConstants>(context);
+		glBufferData(GL_UNIFORM_BUFFER, kSizePerFrameConstantBuffer, &constants, GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 
 
@@ -131,8 +143,6 @@ namespace Cocos {
 	};
 
 	void OpenglRender::InitGeometries() {
-
-
 		auto geoVec = g_SceneSystem->GetGeometries();
 		for (auto &object: geoVec)
 		{
@@ -566,6 +576,8 @@ namespace Cocos {
 			glDepthMask(GL_FALSE);
 		}
 
+
+
 		uint32_t blockIndex = glGetUniformBlockIndex(m_CurrentShader, "LightInfo");
 		if (blockIndex != GL_INVALID_INDEX)
 		{
@@ -576,11 +588,35 @@ namespace Cocos {
 
 			glUniformBlockBinding(m_CurrentShader,blockIndex,12);
 			glBindBufferBase(GL_UNIFORM_BUFFER,12,m_uboLightInfo[frame.frameIndex]);
-
 		}
 
+		blockIndex = glGetUniformBlockIndex(m_CurrentShader, "PerFrameConstants");
+		if (blockIndex != GL_INVALID_INDEX)
+		{
+			int32_t blockSize;
+			glGetActiveUniformBlockiv(m_CurrentShader, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &blockSize);
+			assert(blockSize >= sizeof(PerBatchConstants));
+			glUniformBlockBinding(m_CurrentShader, blockIndex, 11);
+			glBindBufferBase(GL_UNIFORM_BUFFER, 11, m_uboDrawFrameConstant[frame.frameIndex]);
+		}
 
 	}
 
 
+	void OpenglRender::BeginRenderToTexture(uint32_t texture_id,uint32_t width,uint32_t height,uint32_t framebuffer)   {
+
+	}
+
+	void OpenglRender::EndRenderToTexture() {
+
+	}
+
+
+	void OpenglRender::BeginShadowMap() {
+
+	}
+
+	void OpenglRender::EndShadowMap() {
+
+	}
 }

@@ -19,7 +19,12 @@ namespace Cocos {
 		}
 
 		void UpdateConstants();
+
+		void CalculateCameraMatrix();
 		void CalculateLights();
+
+		virtual void BeginShadowMap() = 0 ;
+		virtual void EndShadowMap() = 0 ;
 
 
 		virtual void SetPipelineState(PipelineState*,const Frame&) {};

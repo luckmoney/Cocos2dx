@@ -3,29 +3,28 @@ layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aNormal;
 layout(location = 2) in vec2 aTexCoords;
 
-uniform mat4 view;
 
-
-struct Light{
-    int type;
-    float intensity;
-    vec4 lightPos;
-    vec4 lightColor;
-}; 
-
-
-const int MaxLights = 10;
-layout (std140) uniform  LightInfo{
-	Light lights[MaxLights];
+layout (std140) uniform  PerFrameConstants{
+    mat4 viewMatrix;
+    mat4 projectionMatrix;
+    vec4 camPos;
+    int  numLights;
 };
+
+uniform mat4 view;
 
 out vec3 normal;
 out vec2 TexCoords;
+out vec4 OcamPos;
+out int OnumLights;
+out vec3 FragPos;
 
 void main()
 {
+    FragPos = aPos;
 	gl_Position = view * vec4(aPos, 1.0);
 	normal = aNormal;
-
 	TexCoords = aTexCoords;
+    OnumLights = numLights;
+    OcamPos = camPos;
 }

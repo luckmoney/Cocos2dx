@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <string>
+#include "Framework/Base/SceneObject.h"
 
 namespace Cocos {
 
@@ -8,7 +9,7 @@ namespace Cocos {
 	public:
 		std::string readTextFromFile(const char*);
 
-		bool loadModel(const char*);
+		std::shared_ptr<SceneObject> loadModel(const char*);
 	};
 	extern AssetsManager* g_AssetsManager;
 }

@@ -38,7 +38,7 @@ namespace Cocos {
 	void processNode(aiNode* node, const aiScene* scene, std::shared_ptr<SceneObject>);
 	SceneMesh processMesh(aiMesh* mesh, const aiScene* scene);
 
-	bool AssetsManager::loadModel(const char* path) {
+	std::shared_ptr<SceneObject> AssetsManager::loadModel(const char* path) {
 
 		std::string path_str = std::string(path);
 
@@ -48,13 +48,13 @@ namespace Cocos {
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
 			std::cout << "error ::assimp::" << importer.GetErrorString() << std::endl;
-			return false;
+			return nullptr;
 		}
 		g_directory = path_str.substr(0, path_str.find_last_of('/'));
 		std::shared_ptr<SceneObject> obj = std::make_shared<SceneObject>();
 		processNode(scene->mRootNode, scene,obj);
 		g_SceneSystem->AddObject(obj);
-		return true;
+		return obj;
 	}
 
 	void processNode(aiNode* node, const aiScene* scene, std::shared_ptr<SceneObject> obj) {

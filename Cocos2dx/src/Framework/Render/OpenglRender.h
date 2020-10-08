@@ -12,7 +12,12 @@ namespace Cocos {
 		void BeginFrame(const Frame&);
 		void EndFrame();
 
+		void SetPerFrameConstants(const DrawFrameContext&);
 		void SetLightInfo(const LightInfo&);
+
+		void BeginShadowMap();
+		void EndShadowMap();
+
 
 		void DrawPoint();
 		void DrawLine();
@@ -22,6 +27,9 @@ namespace Cocos {
 		void DrawSkyBox();
 
 		void DrawTerrain();
+
+		void BeginRenderToTexture(uint32_t texture_id,uint32_t,uint32_t,uint32_t);
+		void EndRenderToTexture();
 
 		void SetPipelineState(PipelineState*,const Frame&);
 
@@ -43,6 +51,8 @@ namespace Cocos {
 
 		DrawBatchContext m_SkyBoxDrawBatchContext;
 		DrawBatchContext m_TerrainDrawBatchContext;
+
+		uint32_t m_uboDrawFrameConstant[2] = {0};
 
 		uint32_t m_uboLightInfo[2] = { 0 };
 	};

@@ -1,4 +1,5 @@
 #include "Framework/Application.h"
+#include "Cocos2dx.h"
 namespace Cocos {
 	int Application::Initialize()
 	{
@@ -53,7 +54,28 @@ namespace Cocos {
 	void Application::InitScene() {
 
 		//g_AssetsManager->loadModel("../Cocos2dx/res/objects/cube.obj");
-		g_AssetsManager->loadModel("../Cocos2dx/res/objects/nanosuit/nanosuit.obj");
+		auto obj = g_AssetsManager->loadModel("../Cocos2dx/res/objects/nanosuit/nanosuit.obj");
+		auto obj_node = obj->GetNode();
+		obj_node->setPosition(Vec3(0,0,-0.5));
+
+		std::shared_ptr<SceneObjectOmniLight> omni_light = std::make_shared<SceneObjectOmniLight>();
+		omni_light->SetColor("light",Vector4f(0.0f, 1.0f, 1.0, 1.f));
+		g_SceneSystem->AddLight(omni_light, LightType::Omni);
+		auto node = omni_light->GetNode();
+		node->setPosition(Vec3(1,1,1.0));
+
+
+		std::shared_ptr<SceneObjectSpotLight> spot_light = std::make_shared<SceneObjectSpotLight>();
+		spot_light->SetColor("light", Vector4f(0.0, 0, 1.0, 1.0f));
+		g_SceneSystem->AddLight(spot_light, LightType::Spot);
+		auto spot_node = spot_light->GetNode();
+		spot_node->setPosition(Vec3(1, -1, 1));
+
+		std::shared_ptr<SceneObjectCamera> camera = std::make_shared<SceneObjectCamera>();
+		g_SceneSystem->AddCamera(camera);
+		auto camera_node = camera->GetNode();
+		camera_node->setPosition(Vec3(0, 0, 1.0f));
+
 
 	}
 
