@@ -15,8 +15,10 @@ namespace Cocos {
 		void SetPerFrameConstants(const DrawFrameContext&);
 		void SetLightInfo(const LightInfo&);
 
-		void BeginShadowMap();
-		void EndShadowMap();
+		virtual void BeginShadowMap(const int32_t, const int32_t, const uint32_t, const uint32_t, const int32_t, const Frame&);
+		virtual void EndShadowMap(const int32_t, const int32_t);
+		virtual void SetShadowMaps(const Frame&);
+
 
 
 		void DrawPoint();

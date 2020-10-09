@@ -11,17 +11,24 @@ namespace Cocos {
 		NONE,FRONT,BACK
 	};
 
+	enum class PIPELINE_TYPE{GRAPHIC,COMPUTE};
+	enum class PIXEL_FORMAT{INVALID,BGRA8UNORM};
+
 	struct PipelineState {
 		virtual ~PipelineState() = default;
 
 		std::string pipelineStateName;
+		PIPELINE_TYPE pipelineType{ PIPELINE_TYPE::GRAPHIC };
 
 		std::string vertexShaderName;
 		std::string pixelShaderName;
+		std::string computeShaderName;
+		std::string geometryShaderName;
 		bool bDepthWrite{ true };
 
 		DEPTH_TEST_MODE depthTestMode{DEPTH_TEST_MODE::ALWAYS};
 		CULL_FACE_MODE cullFaceMode{ CULL_FACE_MODE::BACK };
+		PIXEL_FORMAT pixelFormat{ PIXEL_FORMAT::BGRA8UNORM };
 
 		uint32_t shaderProgram = 0;
 	

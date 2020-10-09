@@ -29,6 +29,7 @@ namespace Cocos {
 		float lightIntensity;
 		AttenCurveType lightDistAttenCurveType;
 		int lightCastShadow;
+		int lightShadowMapIndex;
 		Vector4f lightPosition;
 		Vector4f lightColor;
 		Vector4f lightDirection;

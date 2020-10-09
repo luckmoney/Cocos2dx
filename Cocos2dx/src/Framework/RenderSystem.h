@@ -23,8 +23,9 @@ namespace Cocos {
 		void CalculateCameraMatrix();
 		void CalculateLights();
 
-		virtual void BeginShadowMap() = 0 ;
-		virtual void EndShadowMap() = 0 ;
+		virtual void BeginShadowMap(const int32_t,const int32_t,const uint32_t,const uint32_t,const int32_t,const Frame&) = 0 ;
+		virtual void EndShadowMap(const int32_t,const int32_t) = 0 ;
+		virtual void SetShadowMaps(const Frame&) = 0 ;
 
 
 		virtual void SetPipelineState(PipelineState*,const Frame&) {};

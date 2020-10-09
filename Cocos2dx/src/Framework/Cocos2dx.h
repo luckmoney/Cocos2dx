@@ -45,6 +45,7 @@ class PipelineState;
 
 #include "Framework/IRuntimeModule.h"
 #include "Framework/Common.h"
+#include "Framework/Configuration.h"
 #include "Framework/FrameStructure.h"
 #include "Framework/Base/SceneNode.h"
 

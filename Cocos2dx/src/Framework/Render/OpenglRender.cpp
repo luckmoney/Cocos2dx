@@ -612,11 +612,16 @@ namespace Cocos {
 	}
 
 
-	void OpenglRender::BeginShadowMap() {
+	void OpenglRender::BeginShadowMap(const int32_t light_index,const int32_t shadowmap,const uint32_t width,
+									const uint32_t height, const int32_t layer_idex,const Frame& frame){
 
 	}
 
-	void OpenglRender::EndShadowMap() {
+	void OpenglRender::EndShadowMap(const int32_t shadowmap, const int32_t layer_index){
+
+	}
+
+	void OpenglRender::SetShadowMaps(const Frame& frame) {
 
 	}
 }

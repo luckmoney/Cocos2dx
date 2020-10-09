@@ -30,6 +30,30 @@ namespace Cocos {
 		skyboxPipeline.bDepthWrite = true;
 		registerPipelineState(skyboxPipeline);
 
+		PipelineState pipelineState;
+		pipelineState.pipelineStateName = "Omni_Light_Shadow_Map";
+		pipelineState.vertexShaderName = "../Cocos2dx/shader/shadowmap_omni.vs";
+		pipelineState.pipelineStateName = "../Cocos2dx/shader/shadowmap_omni.fs";
+		pipelineState.cullFaceMode = CULL_FACE_MODE::FRONT;
+		pipelineState.pixelFormat = PIXEL_FORMAT::INVALID;
+		registerPipelineState(pipelineState);
+
+
+		pipelineState.pipelineStateName = "Spot_Light_Shadow_Map";
+		pipelineState.vertexShaderName = "../Cocos2dx/shader/shadowmap_spot.vs";
+		pipelineState.pipelineStateName = "../Cocos2dx/shader/shadowmap_spot.fs";
+		registerPipelineState(pipelineState);
+
+		pipelineState.pipelineStateName = "Area_Light_Shadow_Map";
+		pipelineState.vertexShaderName = "../Cocos2dx/shader/shadowmap_spot.vs";
+		pipelineState.pipelineStateName = "../Cocos2dx/shader/shadowmap_spot.fs";
+		registerPipelineState(pipelineState);
+
+		pipelineState.pipelineStateName = "Sun_Light_Shadow_Map";
+		pipelineState.vertexShaderName = "../Cocos2dx/shader/shadowmap_spot.vs";
+		pipelineState.pipelineStateName = "../Cocos2dx/shader/shadowmap_spot.fs";
+		registerPipelineState(pipelineState);
+
 		return 0;
 	}
 
