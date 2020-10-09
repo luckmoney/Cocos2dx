@@ -10,8 +10,10 @@ namespace Cocos {
 		auto camNode = g_SceneSystem->GetFirstCameraNode();
 		auto camObj = g_SceneSystem->GetCamera(camNode->GetSceneObjectRes());
 
-		glm::mat4 view = camObj->GetView();
-		g_RenderSystem->setShaderParameter("view", Mat4(1.0f));
+		glm::mat4 view = glm::mat4(glm::mat3(camObj->GetProjView()));
+
+
+		g_RenderSystem->setShaderParameter("view", view);
 		g_RenderSystem->DrawSkyBox();
 	}
 }

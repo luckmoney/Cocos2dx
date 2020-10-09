@@ -17,6 +17,8 @@ namespace Cocos {
 	public:
 		SceneObjectCamera();
 		Mat4 GetView();
+		Mat4 GetProjView();
+
 		void ProcessMouseMovement(float &,float &);
 		void updateCameraVectors();
 

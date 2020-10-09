@@ -14,7 +14,7 @@ namespace Cocos {
 		geoPipeline.pipelineStateName = "Basic";
 		geoPipeline.vertexShaderName = "../Cocos2dx/shader/basic.vs";
 		geoPipeline.pixelShaderName =  "../Cocos2dx/shader/basic.fs";
-		geoPipeline.cullFaceMode = CULL_FACE_MODE::NONE;
+		geoPipeline.cullFaceMode = CULL_FACE_MODE::BACK;
 		geoPipeline.depthTestMode = DEPTH_TEST_MODE::LESS_EQUAL;
 		geoPipeline.bDepthWrite = true;
 		

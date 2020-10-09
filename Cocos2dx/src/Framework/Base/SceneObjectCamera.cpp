@@ -13,6 +13,11 @@ namespace Cocos {
 
 	}
 
+	Mat4 SceneObjectCamera::GetProjView() {
+		glm::mat4 proj = glm::perspective(glm::radians(30.0f), (float)WINDOWSWIDTH / WINDOWSHEIGHT, 0.1f, 100.f);
+		return proj * GetView();
+	}
+
 	Mat4 SceneObjectCamera::GetView() {
 		auto node = this->GetNode();
 		Vec3 pos = node->getPosition();
