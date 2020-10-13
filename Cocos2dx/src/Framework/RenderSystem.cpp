@@ -52,7 +52,10 @@ namespace Cocos {
 		DrawFrameContext& frameContext = m_Frames[m_nFrameIndex].frameContext;
 		if (pCameraNode)
 		{
+			auto aCamera = g_SceneSystem->GetCamera(pCameraNode->GetSceneObjectRes());
 			frameContext.camPos = Vec4(pCameraNode->getPosition(),1.0);
+			frameContext.viewMatrix = aCamera->GetView();
+			frameContext.projectionMatrix = aCamera->GetProjection();
 		}
 
 	}
@@ -69,6 +72,9 @@ namespace Cocos {
 		{
 			Light& light = light_info.lights[frameContext.numLights];
 			auto pLightNode = mLight;
+
+			Mat4 view = Mat4(1.0f);
+			Mat4 projection = Mat4(1.0f);
 
 			light.lightPosition = Vector4f(pLightNode->getPosition(), 1.0f);
 			light.lightDirection = Vector4f(0, 0, 0, 0.0f);
@@ -102,9 +108,9 @@ namespace Cocos {
 					light.lightType = LightType::Omni;
 				}
 			}
-
-
-			++frameContext.numLights;
+			light.lightViewMatrix = view;
+			light.lightProjectionMatrix = projection;
+			frameContext.numLights++;
 		}
 	}
 

@@ -58,6 +58,8 @@ namespace Cocos {
 		auto obj_node = obj->GetNode();
 		obj_node->setPosition(Vec3(0,0,-0.5));
 
+
+
 		std::shared_ptr<SceneObjectOmniLight> omni_light = std::make_shared<SceneObjectOmniLight>();
 		omni_light->SetColor("light",Vector4f(0.0f, 1.0f, 1.0, 1.f));
 		g_SceneSystem->AddLight(omni_light, LightType::Omni);

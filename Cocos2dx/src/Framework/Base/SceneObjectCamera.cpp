@@ -14,15 +14,20 @@ namespace Cocos {
 	}
 
 	Mat4 SceneObjectCamera::GetProjView() {
-		glm::mat4 proj = glm::perspective(glm::radians(30.0f), (float)WINDOWSWIDTH / WINDOWSHEIGHT, 0.1f, 100.f);
-		return proj * GetView();
+		return GetProjection() * GetView();
+	}
+
+	Mat4 SceneObjectCamera::GetProjection() {
+		return  glm::perspective(glm::radians(30.0f), (float)WINDOWSWIDTH / WINDOWSHEIGHT, 0.1f, 100.f);
 	}
 
 	Mat4 SceneObjectCamera::GetView() {
 		auto node = this->GetNode();
 		Vec3 pos = node->getPosition();
-		return glm::lookAt(pos,pos + Front,
-			Vec3(0,1,0));
+		glm::mat4 view = 
+		view = glm::scale(view, glm::vec3(0.1, 0.1, 0.1));
+		return glm::lookAt(pos, pos + Front,
+			Vec3(0, 1, 0));
 	}
 
 	void SceneObjectCamera::ProcessMouseMovement(float& xoffset, float& yoffset)

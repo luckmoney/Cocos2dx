@@ -68,13 +68,10 @@ namespace Cocos {
 				}
 
 				g_RenderSystem->BeginShadowMap(i, shadowmap, width, height, light.lightShadowMapIndex, frame);
-
 				auto& pPipelineState = g_PipelineManager->GetPipelineState(pipelineStateName);
 				g_RenderSystem->SetPipelineState(&pPipelineState, frame);
 				g_RenderSystem->DrawBatch(frame);
-
 				g_RenderSystem->EndShadowMap(shadowmap, light.lightShadowMapIndex);
-
 			}
 		}
 		frame.frameContext.globalShadowMap = global_shadowmap_index;

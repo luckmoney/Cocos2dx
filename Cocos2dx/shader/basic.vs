@@ -22,7 +22,7 @@ out vec3 FragPos;
 void main()
 {
     FragPos = aPos;
-	gl_Position = view * vec4(aPos, 1.0);
+	gl_Position = projectionMatrix*viewMatrix * vec4(aPos, 1.0);
 	normal = aNormal;
 	TexCoords = aTexCoords;
     OnumLights = numLights;

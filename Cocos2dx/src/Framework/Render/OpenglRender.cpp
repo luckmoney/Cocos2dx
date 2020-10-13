@@ -667,7 +667,6 @@ namespace Cocos {
 		glBindBuffer(GL_UNIFORM_BUFFER, m_uboShadowMatricesConstant[frame.frameIndex]);
 		glBufferData(GL_UNIFORM_BUFFER, sizeof(constants),&constants, GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
 	}
 
 	void OpenglRender::EndShadowMap(const int32_t shadowmap, const int32_t layer_index){
