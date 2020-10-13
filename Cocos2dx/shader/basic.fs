@@ -11,6 +11,10 @@ uniform sampler2D texture_diffuse_map;
 uniform sampler2D texture_normal_map;
 uniform sampler2D texture_metallic_map;
 
+uniform sampler2D CombinedshadowMapsamp0;
+uniform sampler2D CombinedglobalShadowMapsamp0;
+uniform sampler2D CombinedcubeShadowMapsamp0;
+
 
 struct Light{
     mat4 lightViewMatrix;
@@ -59,4 +63,5 @@ void main()
         Color = Color * vec4((ambientColor + diffuseColor + specularColor),1.0);
     }
     FragColor = Color; 
+    //FragColor =  texture(CombinedcubeShadowMapsamp0,TexCoords);  
 }

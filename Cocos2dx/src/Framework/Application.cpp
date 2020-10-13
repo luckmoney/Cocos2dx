@@ -62,7 +62,7 @@ namespace Cocos {
 		omni_light->SetColor("light",Vector4f(0.0f, 1.0f, 1.0, 1.f));
 		g_SceneSystem->AddLight(omni_light, LightType::Omni);
 		auto node = omni_light->GetNode();
-		node->setPosition(Vec3(5,5,5));
+		node->setPosition(Vec3(2,2,2));
 
 
 		std::shared_ptr<SceneObjectSpotLight> spot_light = std::make_shared<SceneObjectSpotLight>();
@@ -70,12 +70,12 @@ namespace Cocos {
 		spot_light->SetColor("light", Vector4f(1.0,1.0,1.0, 1.0f));
 		g_SceneSystem->AddLight(spot_light, LightType::Spot);
 		auto spot_node = spot_light->GetNode();
-		spot_node->setPosition(Vec3(1, -1, 1));
+		spot_node->setPosition(Vec3(1,1.5,2.0));
 
 		std::shared_ptr<SceneObjectCamera> camera = std::make_shared<SceneObjectCamera>();
 		g_SceneSystem->AddCamera(camera);
 		auto camera_node = camera->GetNode();
-		camera_node->setPosition(Vec3(0, 0, 1.0f));
+		camera_node->setPosition(Vec3(0,1.5, 2.0f));
 
 
 	}

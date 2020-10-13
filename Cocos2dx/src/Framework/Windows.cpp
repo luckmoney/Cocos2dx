@@ -88,9 +88,7 @@ namespace Cocos {
 	
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
-
-		//processInput(m_window);
+		processInput(m_window);
 	}
 
 	void Windows::Finalize() {
