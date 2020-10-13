@@ -3,6 +3,8 @@
 
 namespace Cocos {
 	struct GfxConfiguration {
+		static const int32_t kMaxInFlightFrameCount{ 2 };
+
 		static const int32_t kMaxShadowMapCount{ 8 };
 		static const int32_t kMaxGlobalShadowMapCount{ 1 };
 		static const int32_t kMaxCubeShadowMapCount{ 2 };
@@ -14,4 +16,5 @@ namespace Cocos {
 		static const uint32_t kGlobalShadowMapWidth = 2048;  // shadow map for sun light
 		static const uint32_t kGlobalShadowMapHeight = 2048;  // shadow map for sun light
 	};
+
 }

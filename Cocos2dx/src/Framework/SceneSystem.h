@@ -19,9 +19,9 @@ namespace Cocos {
 			return m_geometroies;
 		}
 
-		std::shared_ptr<SceneObjectLight>& GetLight(const std::string&);
+		std::shared_ptr<SceneObjectLight> GetLight(const std::string&);
 
-		std::shared_ptr<SceneObjectCamera>& GetCamera(const std::string&);
+		std::shared_ptr<SceneObjectCamera> GetCamera(const std::string&);
 
 		std::vector<std::shared_ptr<SceneLightNode> > GetLightNodes() { return m_LightNodeVec; }
 

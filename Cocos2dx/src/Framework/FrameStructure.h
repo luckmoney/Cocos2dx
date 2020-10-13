@@ -72,5 +72,14 @@ namespace Cocos {
 		sizeof(LightInfo), 256);  // CB size is required to be 256-byte aligned.
 
 	const size_t kSizePerFrameConstantBuffer = ALIGN(sizeof(PerFrameConstants), 256);
+
+	struct ShadowMapConstants {
+		int32_t light_index;
+		float shadowmap_layer_index;
+		float near_plane;
+		float far_plane;
+	};
+	const size_t kSizeShadowMapConstantBuffer = ALIGN(sizeof(ShadowMapConstants), 256);
+
 }
 

@@ -13,14 +13,20 @@ uniform sampler2D texture_metallic_map;
 
 
 struct Light{
+    mat4 lightViewMatrix;
+    mat4 lightProjectionMatrix;
     int type;
     float intensity;
-    int CurveType;
     int lightCastShadow;
+    int lightShadowMapIndex;
+    int lightDistAttenCurveType;
+    int lightAngleAttenCurveType;
+    vec2 LightSize;
     vec4 lightPos;
     vec4 lightColor;
     vec4 lightDirection;
     vec4 lightDistAttenCurveParams[2];
+
 }; 
 
 

@@ -9,7 +9,7 @@ namespace Cocos {
 	class SceneMesh;
 
 	enum class SceneObjectType {
-		Geometry, Light, Camera
+		Geometry, LightOmni,LightInfi,LightSpot,LightArea, Camera
 	};
 
 
@@ -39,6 +39,9 @@ namespace Cocos {
 		std::vector<SceneMesh>& GetMeshArrary() {
 			return m_MeshVec;
 		}
+
+		SceneObjectType GetType()const { return m_Type; }
+
 	private:
 		std::shared_ptr<SceneNode> m_Node;
 		std::string m_key;

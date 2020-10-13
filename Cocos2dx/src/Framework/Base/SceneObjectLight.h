@@ -35,6 +35,7 @@ namespace Cocos {
 		} u;
 		AttenCurve() = default;
 	};
+
 	class SceneObjectLight :public SceneObject {
 	protected:
 		Color m_LightColor;
@@ -44,7 +45,7 @@ namespace Cocos {
 		std::string m_strTexture;
 
 	public:
-		SceneObjectLight():SceneObject(SceneObjectType::Light) {
+		explicit SceneObjectLight(const SceneObjectType type):SceneObject(type) {
 		}
 
 		void SetIfCanShadow(bool shadow) {
@@ -94,7 +95,7 @@ namespace Cocos {
 	class SceneObjectOmniLight :public SceneObjectLight {
 	public:
 		SceneObjectOmniLight() :
-			SceneObjectLight() {};
+			SceneObjectLight(SceneObjectType::LightOmni) {};
 	};
 
 
@@ -103,7 +104,7 @@ namespace Cocos {
 		AttenCurve m_LightAngleAttenuation;
 	public:
 		SceneObjectSpotLight() :
-			SceneObjectLight() {};
+			SceneObjectLight(SceneObjectType::LightSpot) {};
 
 		void SetAngleAttenuation(AttenCurve curve) {
 			m_LightAngleAttenuation = curve;
@@ -118,7 +119,7 @@ namespace Cocos {
 	class SceneObjectInfiniteLight :public SceneObjectLight {
 	public:
 		SceneObjectInfiniteLight() :
-			SceneObjectLight() {};
+			SceneObjectLight(SceneObjectType::LightInfi) {};
 	};
 
 	class SceneObjectAreaLight :public SceneObjectLight {
@@ -126,7 +127,7 @@ namespace Cocos {
 		Vector2f m_LightDimension;
 	public:
 		SceneObjectAreaLight() :
-			SceneObjectLight(), m_LightDimension({ 1.0f,1.0f }) {};
+			SceneObjectLight(SceneObjectType::LightArea), m_LightDimension({ 1.0f,1.0f }) {};
 
 		const Vector2f& GetDimension() const {
 			return m_LightDimension;

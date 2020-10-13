@@ -85,7 +85,12 @@ namespace Cocos {
 	}
 
 	void Windows::Tick() {
-		processInput(m_window);
+	
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+
+		//processInput(m_window);
 	}
 
 	void Windows::Finalize() {

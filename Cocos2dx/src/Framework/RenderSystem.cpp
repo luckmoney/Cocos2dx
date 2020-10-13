@@ -81,6 +81,29 @@ namespace Cocos {
 			light.lightDistAttenCurveType = atten_curve.type;
 			memcpy(light.lightDistAttenCurveParams, &atten_curve.u, sizeof(atten_curve.u));
 
+			float nearClipDistance = 1.0f;
+			float farClipDistance = 100.0f;
+			if (pLight->GetType() == SceneObjectType::LightInfi)
+			{
+				light.lightType = LightType::Infinity;
+				Vector4f target = { 0.0f,0.0f,0.0f,1.0f };
+
+
+			}
+			else {
+				if (pLight->GetType()== SceneObjectType::LightSpot)
+				{
+					light.lightType = LightType::Spot;
+				}
+				else if (pLight->GetType() == SceneObjectType::LightArea) {
+					light.lightType = LightType::Area;
+				}
+				else {
+					light.lightType = LightType::Omni;
+				}
+			}
+
+
 			++frameContext.numLights;
 		}
 	}
@@ -98,7 +121,34 @@ namespace Cocos {
 
 
 	void RenderSystem::BeginScene() {
-		
+		for (int32_t i = 0 ; i < GfxConfiguration::kMaxInFlightFrameCount;i++)
+		{
+			m_Frames[i] = m_Frames[0];
+			m_Frames[i].frameIndex = i;
+			if (m_Frames[i].frameContext.shadowMap == -1)
+			{
+				m_Frames[i].frameContext.shadowMap = g_RenderSystem->GenerateShadowMapArray(
+					GfxConfiguration::kShadowMapWidth,
+					GfxConfiguration::kShadowMapHeight, GfxConfiguration::kMaxShadowMapCount);
+			}
+
+			if (m_Frames[i].frameContext.globalShadowMap == -1)
+			{
+				m_Frames[i].frameContext.globalShadowMap = g_RenderSystem->GenerateShadowMapArray(
+					GfxConfiguration::kGlobalShadowMapWidth,GfxConfiguration::kGlobalShadowMapHeight,
+					GfxConfiguration::kMaxGlobalShadowMapCount
+				);
+			}
+
+			if (m_Frames[i].frameContext.cubeShadowMap == -1)
+			{
+				m_Frames[i].frameContext.cubeShadowMap = g_RenderSystem->GenerateShadowMapArray(
+					GfxConfiguration::kCubeShadowMapWidth,GfxConfiguration::kCubeShadowMapHeight,
+					GfxConfiguration::kMaxCubeShadowMapCount
+				);
+			}
+
+		}
 	}
 
 

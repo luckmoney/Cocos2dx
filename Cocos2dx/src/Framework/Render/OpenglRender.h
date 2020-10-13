@@ -15,6 +15,8 @@ namespace Cocos {
 		void SetPerFrameConstants(const DrawFrameContext&);
 		void SetLightInfo(const LightInfo&);
 
+		virtual int32_t GenerateShadowMapArray(const uint32_t width, const uint32_t height, const uint32_t count);
+
 		virtual void BeginShadowMap(const int32_t, const int32_t, const uint32_t, const uint32_t, const int32_t, const Frame&);
 		virtual void EndShadowMap(const int32_t, const int32_t);
 		virtual void SetShadowMaps(const Frame&);
@@ -55,8 +57,11 @@ namespace Cocos {
 		DrawBatchContext m_TerrainDrawBatchContext;
 
 		uint32_t m_uboDrawFrameConstant[2] = {0};
+		uint32_t m_uboShadowMatricesConstant[2] = { 0 };
 
 		uint32_t m_uboLightInfo[2] = { 0 };
+
+		uint32_t m_ShadowMapFramebufferName;
 	};
 
 }

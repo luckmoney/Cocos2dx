@@ -1,13 +1,13 @@
 #include "ShadowPass.h"
-#include "Framework/Render/OpenglRender.h"s
+#include "Framework/Render/OpenglRender.h"
 
 namespace Cocos {
 	void ShadowPass::Draw(Frame& frame) {
 		uint32_t shadowmap_index = 0;
 		uint32_t global_shadowmap_index = 0;
 		uint32_t cube_shadowmap_index = 0;
-		
-		for (int32_t i = 0;i < frame.frameContext.numLights;i++)
+
+		for (int32_t i = 0; i < frame.frameContext.numLights; i++)
 		{
 			auto& light = frame.lightInfo.lights[i];
 			if (light.lightCastShadow)
@@ -67,13 +67,13 @@ namespace Cocos {
 					assert(0);
 				}
 
-				g_RenderSystem->BeginShadowMap(i,shadowmap,width,height,light.lightShadowMapIndex,frame);
-				
+				g_RenderSystem->BeginShadowMap(i, shadowmap, width, height, light.lightShadowMapIndex, frame);
+
 				auto& pPipelineState = g_PipelineManager->GetPipelineState(pipelineStateName);
-				g_RenderSystem->SetPipelineState(&pPipelineState,frame);
+				g_RenderSystem->SetPipelineState(&pPipelineState, frame);
 				g_RenderSystem->DrawBatch(frame);
 
-				g_RenderSystem->EndShadowMap(shadowmap,light.lightShadowMapIndex);
+				g_RenderSystem->EndShadowMap(shadowmap, light.lightShadowMapIndex);
 
 			}
 		}

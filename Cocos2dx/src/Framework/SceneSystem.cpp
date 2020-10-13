@@ -69,16 +69,16 @@ namespace Cocos {
 		return m_Camera;
 	}
 
-	std::shared_ptr<SceneObjectLight>& SceneSystem::GetLight(const std::string& key) {
+	std::shared_ptr<SceneObjectLight> SceneSystem::GetLight(const std::string& key) {
 		auto iter = m_Lights.find(key);
 		if (iter != m_Lights.end())
 		{
 			return (*iter).second;
 		}
-		return std::make_shared<SceneObjectLight>();
+		return nullptr;
 	};
 
-	std::shared_ptr<SceneObjectCamera>& SceneSystem::GetCamera(const std::string& key) {
+	std::shared_ptr<SceneObjectCamera> SceneSystem::GetCamera(const std::string& key) {
 		auto iter = m_Cameras.find(key);
 		if (iter != m_Cameras.end())
 		{

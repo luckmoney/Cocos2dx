@@ -23,16 +23,20 @@ namespace Cocos {
 		kNone, kLinear, kSmooth, kInverse, kInverseSquare
 	};
 
-
+	//用了std140内存布局后，这里要注意对齐
 	struct Light {
-		LightType lightType;
-		float lightIntensity;
-		AttenCurveType lightDistAttenCurveType;
-		int lightCastShadow;
-		int lightShadowMapIndex;
-		Vector4f lightPosition;
-		Vector4f lightColor;
-		Vector4f lightDirection;
+		Mat4 lightViewMatrix;				//64 bytes
+		Mat4 lightProjectionMatrix;			//64 bytes
+		LightType lightType;				//4 bytes
+		float lightIntensity;				//4 bytes
+		int lightCastShadow;				//4 bytes
+		int lightShadowMapIndex;			//4 bytes
+		AttenCurveType lightDistAttenCurveType; //4 bytes
+		AttenCurveType lightAngleAttenCurveType; //4 bytes
+		Vector2f LightSize;					// 16 bytes
+		Vector4f lightPosition;				//16 bytes
+		Vector4f lightColor;				//16 bytes
+		Vector4f lightDirection;			//16 bytes
 		Vector4f lightDistAttenCurveParams[2];    // 32 bytes
 	};
 }

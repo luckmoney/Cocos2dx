@@ -39,6 +39,8 @@ namespace Cocos {
 	}
 
 	void OpenglRender::BeginScene() {
+		RenderSystem::BeginScene();
+
 		InitGeometries();
 		if (g_SceneSystem->SkyBox)
 		{
@@ -611,17 +613,104 @@ namespace Cocos {
 
 	}
 
+	int32_t OpenglRender::GenerateShadowMapArray(const uint32_t width, const uint32_t height, const uint32_t count) {
+		uint32_t shadowMap;
+		glGenTextures(1, &shadowMap);
+		glBindTexture(GL_TEXTURE_2D, shadowMap);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		return static_cast<int32_t>(shadowMap);
+	}
+
 
 	void OpenglRender::BeginShadowMap(const int32_t light_index,const int32_t shadowmap,const uint32_t width,
 									const uint32_t height, const int32_t layer_idex,const Frame& frame){
 
+		glGenFramebuffers(1, &m_ShadowMapFramebufferName);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_ShadowMapFramebufferName);
+	
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, (uint32_t)shadowmap,GL_TEXTURE_2D, 0);
+	
+		auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		if (status != GL_FRAMEBUFFER_COMPLETE)
+		{
+			std::cout << std::hex << (status) << std::endl;
+			assert(0);
+		}
+
+
+		glViewport(0, 0, width, height);
+		glDrawBuffers(0, nullptr);
+		if (frame.lightInfo.lights[light_index].lightType != LightType::Omni || layer_idex == 0)
+		{
+			glClear(GL_DEPTH_BUFFER_BIT);
+		}
+		float nearClipDistance = 1.0f;
+		float farClipDistance = 100.0f;
+		
+		ShadowMapConstants constants;
+		constants.light_index = light_index;
+		constants.shadowmap_layer_index = static_cast<float>(layer_idex);
+		constants.near_plane = nearClipDistance;
+		constants.far_plane = farClipDistance;
+
+		if (!m_uboShadowMatricesConstant[frame.frameIndex])
+		{
+			glGenBuffers(1, &m_uboShadowMatricesConstant[frame.frameIndex]);
+		}
+		glBindBuffer(GL_UNIFORM_BUFFER, m_uboShadowMatricesConstant[frame.frameIndex]);
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(constants),&constants, GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
 	}
 
 	void OpenglRender::EndShadowMap(const int32_t shadowmap, const int32_t layer_index){
-
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glDeleteFramebuffers(1, &m_ShadowMapFramebufferName);
+		glViewport(0, 0, WINDOWSWIDTH, WINDOWSHEIGHT);
 	}
 
 	void OpenglRender::SetShadowMaps(const Frame& frame) {
+		const float color[] = { 1.0f,1.0f,1.0f,1.0f };
+		setShaderParameter("SPIRV_Cross_CombinedshadowMapsamp0", 7);
+		glActiveTexture(GL_TEXTURE7);
+		glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		glTexParameterfv(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_BORDER_COLOR, color);
+		auto texture_id = frame.frameContext.shadowMap;
+		if (texture_id > 0)
+		{
+			glBindTexture(GL_TEXTURE_2D_ARRAY, (GLuint)texture_id);
+		}
 
+		setShaderParameter("SPIRV_Cross_CombinedglobalShadowMapsamp0", 8);
+		glActiveTexture(GL_TEXTURE8);
+		glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		glTexParameterfv(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_BORDER_COLOR, color);
+		texture_id = frame.frameContext.globalShadowMap;
+		if (texture_id >0)
+		{
+			glBindTexture(GL_TEXTURE_2D_ARRAY, (GLuint)texture_id);
+		}
+
+		setShaderParameter("SPIRV_Cross_CombinedcubeShadowMapsamp0", 9);
+		glActiveTexture(GL_TEXTURE9);
+		GLenum target = GL_TEXTURE_CUBE_MAP;
+		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		texture_id = frame.frameContext.cubeShadowMap;
+		if (texture_id > 0 )
+		{
+			glBindTexture(target, (GLuint)texture_id);
+		}
 	}
 }
